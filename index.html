@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Build Your AI Clone — 6-Week Workshop with Claude</title>
+    <title>Build Your AI Clone — 6-Week Workshop with Claude Desktop</title>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap');
 
@@ -199,6 +199,115 @@
         position: absolute;
         left: 0;
         color: var(--accent2);
+      }
+
+      .desktop-guide {
+        margin-top: 34px;
+        padding: 30px 32px;
+        scroll-margin-top: 82px;
+        background: linear-gradient(
+          180deg,
+          rgba(123, 97, 255, 0.12),
+          rgba(18, 18, 26, 0.92)
+        );
+        border: 1px solid var(--border);
+        border-radius: 12px;
+      }
+      .desktop-guide h3 {
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.45rem;
+        margin-bottom: 8px;
+      }
+      .desktop-guide > p {
+        color: var(--text-dim);
+        margin-bottom: 20px;
+      }
+      .setup-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+      .setup-card {
+        background: rgba(18, 18, 26, 0.78);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 18px;
+      }
+      .setup-card h4 {
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--accent);
+        margin-bottom: 10px;
+      }
+      .setup-card ol,
+      .setup-card ul {
+        padding-left: 19px;
+      }
+      .setup-card li {
+        color: var(--text-dim);
+        font-size: 0.92rem;
+        line-height: 1.65;
+        margin-bottom: 8px;
+      }
+      .setup-card strong,
+      .desktop-guide strong {
+        color: var(--text);
+      }
+      .desktop-guide code,
+      .setup-card code {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.82em;
+        color: var(--accent);
+        background: rgba(201, 160, 255, 0.08);
+        border: 1px solid rgba(201, 160, 255, 0.16);
+        border-radius: 4px;
+        padding: 1px 5px;
+      }
+      .desktop-guide a {
+        color: var(--accent);
+        text-decoration: none;
+        border-bottom: 1px solid rgba(201, 160, 255, 0.35);
+      }
+      .desktop-guide a:hover {
+        border-bottom-color: var(--accent);
+      }
+      .desktop-note {
+        margin-top: 18px;
+        padding: 14px 16px;
+        background: rgba(255, 138, 101, 0.08);
+        border-left: 3px solid var(--accent3);
+        border-radius: 0 8px 8px 0;
+        color: var(--text-dim);
+        font-size: 0.92rem;
+      }
+      .session-routine {
+        margin-top: 18px;
+        background: rgba(102, 217, 160, 0.06);
+        border: 1px solid rgba(102, 217, 160, 0.18);
+        border-radius: 10px;
+        padding: 18px;
+      }
+      .session-routine h4 {
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--success);
+        margin-bottom: 10px;
+      }
+      .session-routine ol {
+        padding-left: 19px;
+      }
+      .session-routine li {
+        color: var(--text-dim);
+        font-size: 0.92rem;
+        line-height: 1.65;
+        margin-bottom: 8px;
+      }
+      .source-list {
+        margin-top: 18px;
+        color: var(--text-dim);
+        font-size: 0.85rem;
       }
 
       /* Week sections */
@@ -433,6 +542,12 @@
         .prereqs {
           padding: 20px;
         }
+        .desktop-guide {
+          padding: 22px 20px;
+        }
+        .setup-grid {
+          grid-template-columns: 1fr;
+        }
         .day-header {
           padding: 16px 18px;
         }
@@ -449,12 +564,12 @@
   <body>
     <!-- HERO -->
     <section class="hero">
-      <div class="hero-badge">Free · Self-Guided · 100% Claude</div>
+      <div class="hero-badge">Free · Self-Guided · Claude Desktop</div>
       <h1>Build Your AI Clone System in 6 Weeks</h1>
       <p>
         A detailed, step-by-step workshop to create a personal AI partner that
         knows your voice, handles your busywork, and grows with you — using
-        nothing but Claude.
+        Claude Desktop as your daily workspace.
       </p>
       <div class="hero-stats">
         <div class="hero-stat"><strong>6</strong><span>Weeks</span></div>
@@ -470,6 +585,7 @@
     <nav class="week-nav">
       <div class="week-nav-inner">
         <a href="#setup">Setup</a>
+        <a href="#claude-desktop">Desktop</a>
         <a href="#week1">Wk 1 · Clone Builder</a>
         <a href="#week2">Wk 2 · Activate</a>
         <a href="#week3">Wk 3 · Your Voice</a>
@@ -486,21 +602,22 @@
         <p>
           This workshop is designed so you do one session per weekday (5 per
           week) for 6 weeks. Each session takes 30–60 minutes. By the end,
-          you'll have a fully personalized AI system built on Claude that
-          handles real work.
+          you'll have a fully personalized AI system built inside Claude
+          Desktop that handles real work.
         </p>
         <p>
           You don't need any coding experience. You don't need any prior AI
-          experience. You just need Claude and the willingness to actually do
-          the exercises — not just read them.
+          experience. You just need Claude Desktop and the willingness to
+          actually do the exercises — not just read them.
         </p>
 
         <div class="prereqs">
           <h3>What You Need</h3>
           <ul>
             <li>
-              A Claude account (free tier works; Pro unlocks longer
-              conversations and more usage)
+              The latest Claude Desktop installed and signed in (free tier
+              works; paid plans unlock higher usage, Cowork, and advanced
+              workflows)
             </li>
             <li>
               A notes app or Google Doc for your "AI Clone Playbook" — a living
@@ -515,6 +632,286 @@
               Your willingness to be specific and honest about how you work
             </li>
           </ul>
+        </div>
+
+        <div class="desktop-guide" id="claude-desktop">
+          <h3>Claude Desktop Setup Instructions</h3>
+          <p>
+            Use Claude Desktop for the workshop. It gives you a stable place to
+            keep your AI Clone conversations, set account-wide instructions,
+            create styles, use Projects, and connect local tools when you are
+            ready. Do the workshop inside the same Project whenever possible so
+            Claude keeps seeing the same Playbook and samples.
+          </p>
+
+          <div class="setup-grid">
+            <div class="setup-card">
+              <h4>1. Install and Sign In</h4>
+              <ol>
+                <li>
+                  Go to
+                  <a
+                    href="https://claude.ai/download"
+                    target="_blank"
+                    rel="noopener"
+                    >claude.ai/download</a
+                  >
+                  and download Claude Desktop for your computer.
+                </li>
+                <li>
+                  Install it on macOS 11 or newer, or Windows 10 or newer.
+                </li>
+                <li>
+                  Open Claude Desktop from Applications on Mac or the Start menu
+                  on Windows, then sign in with your Claude account.
+                </li>
+                <li>
+                  Before Day 1, quit and reopen Claude Desktop so auto-updates
+                  can finish. If you do not see features like
+                  <strong>Extensions</strong>, <strong>Connectors</strong>, or
+                  <strong>Use style</strong>, reinstall from the download page
+                  and sign in again.
+                </li>
+              </ol>
+            </div>
+
+            <div class="setup-card">
+              <h4>2. Create Your Workshop Home</h4>
+              <ol>
+                <li>
+                  Create one document named <strong>AI Clone Playbook</strong>
+                  in Google Docs, Notion, Word, Obsidian, or your notes app.
+                </li>
+                <li>
+                  Add these headings now: <code>Clone Profile</code>,
+                  <code>Voice Profile</code>, <code>Prompt Library</code>,
+                  <code>Workflows</code>, <code>Quality Gates</code>, and
+                  <code>Maintenance Log</code>.
+                </li>
+                <li>
+                  Create a local folder named <strong>AI Clone Workshop</strong>
+                  for writing samples, screenshots, PDFs, spreadsheets, and any
+                  files you want Claude to analyze.
+                </li>
+              </ol>
+            </div>
+
+            <div class="setup-card">
+              <h4>3. Set Claude Instructions</h4>
+              <ol>
+                <li>
+                  In Claude Desktop, click your initials in the lower-left
+                  corner, then open <strong>Settings</strong>.
+                </li>
+                <li>
+                  Under <strong>Instructions for Claude</strong>, paste a short
+                  starter instruction:
+                  <br /><code
+                    >Help me build and maintain my AI Clone system. Ask for
+                    missing context, preserve my voice, and turn repeated work
+                    into reusable prompts and workflows.</code
+                  >
+                </li>
+                <li>
+                  Replace this starter instruction with your full Clone
+                  Blueprint at the end of Week 1.
+                </li>
+              </ol>
+            </div>
+
+            <div class="setup-card">
+              <h4>4. Make a Project</h4>
+              <ol>
+                <li>
+                  Create a Claude Project named
+                  <strong>AI Clone Workshop</strong>. Projects are available on
+                  free accounts too, with plan-specific limits.
+                </li>
+                <li>
+                  Add this project instruction:
+                  <br /><code
+                    >This project contains my personal AI Clone workshop. Use my
+                    Playbook, writing samples, prompt library, and feedback logs
+                    as the source of truth.</code
+                  >
+                </li>
+                <li>
+                  Upload your Playbook and updated samples as you create them.
+                  Start each workshop day in this Project.
+                </li>
+              </ol>
+            </div>
+
+            <div class="setup-card">
+              <h4>5. Prepare Style</h4>
+              <ol>
+                <li>
+                  In a chat, open the tools menu at the lower-left of the
+                  message box. Depending on your Desktop build, this may appear
+                  as <strong>Search and tools</strong> or as a compact
+                  <strong>+</strong> button.
+                </li>
+                <li>
+                  Choose <strong>Use style</strong>, then
+                  <strong>Create &amp; edit styles</strong>.
+                </li>
+                <li>
+                  On Day 3, click <strong>Create custom style</strong>, then add
+                  writing examples by uploading files or pasting text. Until
+                  then, use Normal or Concise.
+                </li>
+              </ol>
+            </div>
+
+            <div class="setup-card">
+              <h4>6. Optional: Connect Apps</h4>
+              <ol>
+                <li>
+                  For cloud apps like Google Drive, Slack, Linear, or Notion,
+                  open <strong>Customize &gt; Connectors</strong>, then click
+                  the <strong>+</strong> button next to Connectors and connect
+                  only services you trust.
+                </li>
+                <li>
+                  From a chat, you can also click the <strong>+</strong> button
+                  in the lower-left of the message box, or type <code>/</code>,
+                  then open <strong>Connectors</strong> and choose
+                  <strong>Manage connectors</strong>.
+                </li>
+                <li>
+                  To control which connected tools load in a conversation, open
+                  <strong>+</strong> or <code>/</code> &gt;
+                  <strong>Connectors</strong> &gt; <strong>Tool access</strong>.
+                  Use Auto unless you have many connectors active.
+                </li>
+              </ol>
+            </div>
+
+            <div class="setup-card">
+              <h4>7. Optional: Local Extensions</h4>
+              <ol>
+                <li>
+                  For local files, desktop apps, localhost databases, or tools
+                  that need OS-level access, use
+                  <strong>Settings &gt; Extensions</strong> in Claude Desktop.
+                </li>
+                <li>
+                  Click <strong>Browse extensions</strong>, install only
+                  Anthropic-reviewed tools you trust, and complete any required
+                  API keys, folder paths, or permissions.
+                </li>
+                <li>
+                  If an extension installs but does not appear in chat, restart
+                  Claude Desktop. Then click the <strong>+</strong> button in
+                  the message box and choose <strong>Connectors</strong> to
+                  verify the tools are available.
+                </li>
+              </ol>
+            </div>
+
+            <div class="setup-card">
+              <h4>8. Know What's New</h4>
+              <ul>
+                <li>
+                  <strong>Projects:</strong> Available to all users, including
+                  free accounts, with plan-specific limits.
+                </li>
+                <li>
+                  <strong>Custom connectors:</strong> Remote MCP connectors work
+                  on Claude Desktop, but the server must be reachable from
+                  Anthropic's cloud. Free users currently get one custom
+                  connector.
+                </li>
+                <li>
+                  <strong>Desktop extensions:</strong> Run locally and are for
+                  Claude Desktop or Claude Code, not web or mobile.
+                </li>
+                <li>
+                  <strong>Cowork:</strong> Available on paid plans in Claude
+                  Desktop for longer, multi-step work with connected local
+                  folders.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="desktop-note">
+            Keep sensitive data out of Claude unless you are allowed to share it
+            and you understand the connector or extension permissions. For this
+            workshop, plain prompts, uploaded writing samples, and your Playbook
+            are enough to complete the core system.
+          </div>
+
+          <div class="session-routine">
+            <h4>Run Each Workshop Session This Way</h4>
+            <ol>
+              <li>
+                Open Claude Desktop, then open your
+                <strong>AI Clone Workshop</strong> Project.
+              </li>
+              <li>
+                Open your <strong>AI Clone Playbook</strong> beside it so you
+                can paste in new outputs as soon as they are useful.
+              </li>
+              <li>
+                Expand the day below, copy the prompt, replace every
+                <code>[BRACKETED PLACEHOLDER]</code> with real context, and run
+                it on a real task.
+              </li>
+              <li>
+                Save only the reusable pieces: profiles, prompt templates,
+                workflows, quality rules, time-savings notes, and corrections
+                Claude should remember.
+              </li>
+            </ol>
+          </div>
+
+          <div class="source-list">
+            Updated for Claude Desktop on May 11, 2026 using Anthropic's current
+            help docs for
+            <a
+              href="https://support.claude.com/en/articles/10065433-install-claude-desktop"
+              target="_blank"
+              rel="noopener"
+              >installation</a
+            >,
+            <a
+              href="https://support.claude.com/en/articles/10185728-understanding-claude-s-personalization-features"
+              target="_blank"
+              rel="noopener"
+              >personalization</a
+            >,
+            <a
+              href="https://support.claude.com/en/articles/10181068-configure-and-use-styles"
+              target="_blank"
+              rel="noopener"
+              >styles</a
+            >,
+            <a
+              href="https://support.claude.com/en/articles/11176164-use-connectors-to-extend-claude-s-capabilities"
+              target="_blank"
+              rel="noopener"
+              >connectors</a
+            >,
+            <a
+              href="https://support.claude.com/en/articles/11725091-when-to-use-desktop-and-web-connectors"
+              target="_blank"
+              rel="noopener"
+              >desktop vs. web connectors</a
+            >,
+            <a
+              href="https://support.claude.com/en/articles/10949351-getting-started-with-local-mcp-servers-on-claude-desktop"
+              target="_blank"
+              rel="noopener"
+              >Desktop extensions</a
+            >, and
+            <a
+              href="https://support.claude.com/en/articles/12138966-release-notes"
+              target="_blank"
+              rel="noopener"
+              >release notes</a
+            >.
+          </div>
         </div>
       </section>
 
@@ -548,9 +945,9 @@
           <div class="day-content">
             <h4>What You'll Do</h4>
             <p>
-              Today is about extracting everything from your head and putting it
-              into a format Claude can work with. You're going to create your
-              personal context document.
+              Today is about getting important context out of your head and into
+              a format Claude can use. You'll create the personal context
+              document that powers the rest of the workshop.
             </p>
 
             <h4>Step 1 — Write Your "About Me" Brief (15 min)</h4>
@@ -585,8 +982,8 @@
 
             <h4>Step 2 — Feed It to Claude (15 min)</h4>
             <p>
-              Now take everything you wrote and bring it to Claude with this
-              prompt:
+              Now take everything you wrote and paste it into Claude Desktop
+              with this prompt:
             </p>
 
             <div class="prompt-block">
@@ -611,13 +1008,15 @@
             <p>
               Answer Claude's follow-up questions. Then ask Claude to produce a
               final "Clone Profile v1" that combines everything. Save this to
-              your Playbook doc — this is the foundation of everything.
+              your Playbook — it is the foundation for every later session.
             </p>
 
             <div class="tip">
               <strong>Pro tip:</strong> Set this Clone Profile as your Claude
-              "User Preferences" in Settings. That way every new conversation
-              starts with your context already loaded.
+              Desktop account instruction: click your initials in the
+              lower-left corner, open Settings, and paste the profile under
+              "Instructions for Claude." That way every new conversation starts
+              with your context already loaded.
             </div>
           </div>
         </div>
@@ -632,8 +1031,9 @@
           <div class="day-content">
             <h4>What You'll Do</h4>
             <p>
-              You can't buy back time you haven't accounted for. Today you audit
-              every recurring task and categorize it by AI-readiness.
+              You can't reclaim time you haven't measured. Today you'll audit
+              your recurring tasks and sort them by how ready they are for
+              Claude's help.
             </p>
 
             <h4>Step 1 — Task Inventory (20 min)</h4>
@@ -764,9 +1164,11 @@
 
             <div class="tip">
               <strong>Pro tip:</strong> You can use Claude's custom Style
-              feature. Go to Settings → Style → Create a custom style. Paste
-              your writing samples and Claude will learn your voice across all
-              conversations.
+              feature. In Claude Desktop, open the lower-left tools menu in the
+              message box. It may be labeled Search and tools or shown as a
+              compact + button. Choose Use style, then Create &amp; edit styles.
+              Upload or paste your writing samples so Claude can match your
+              voice across conversations.
             </div>
           </div>
         </div>
@@ -871,13 +1273,15 @@
               questions or just take its best shot? Should Claude default to
               short or detailed responses? How should Claude handle tasks it's
               unsure about? Format the final document so I can paste it into
-              Claude's User Preferences or at the start of any conversation.
+              Claude Desktop's Instructions for Claude, my AI Clone Project, or
+              the start of any conversation.
             </div>
 
             <p>
-              Once assembled, paste the key sections into Claude's User
-              Preferences (Settings → User Preferences). Keep the full document
-              in your Playbook for reference.
+              Once assembled, paste the key sections into Instructions for
+              Claude (initials in lower left → Settings → Instructions for
+              Claude). Also upload the full Playbook to your AI Clone Workshop
+              Project so project chats can use the complete context.
             </p>
 
             <div class="tip">
@@ -1048,8 +1452,7 @@
             <h4>What You'll Do</h4>
             <p>
               Learn to use Claude for research, analysis, and decision-making
-              support — turning hours of Googling into minutes of structured
-              insight.
+              support — turning scattered reading into structured insight.
             </p>
 
             <h4>Step 1 — Research Prompt Templates</h4>
@@ -1077,8 +1480,9 @@
             <h4>Step 2 — Run a Real Research Task</h4>
             <p>
               Pick something you actually need to research this week. Use the
-              appropriate template. Note: Claude can search the web, so ask it
-              to find current information when needed.
+              appropriate template. If web search is available in your Claude
+              account, ask Claude to find current information and include
+              sources. If not, paste the sources you want it to analyze.
             </p>
 
             <h4>Step 3 — Decision Framework</h4>
@@ -1266,8 +1670,8 @@
             </div>
 
             <p>
-              This iterative feedback loop is how you get Claude from "decent AI
-              output" to "sounds exactly like me."
+              This feedback loop is how you move from "decent AI output" to
+              "sounds exactly like me."
             </p>
           </div>
         </div>
@@ -1418,22 +1822,23 @@
         <div class="day" onclick="this.classList.toggle('open')">
           <div class="day-header">
             <span class="day-tag">Day 15</span>
-            <span class="day-title">Projects Feature — Persistent Context</span>
+            <span class="day-title">Projects — Persistent Context</span>
             <span class="day-toggle">+</span>
           </div>
           <div class="day-content">
             <h4>What You'll Do</h4>
             <p>
-              Learn to use Claude Projects (available on Pro) to create
-              dedicated workspaces with persistent context — so you don't have
-              to re-explain things every conversation.
+              Learn to use Claude Projects to create dedicated workspaces with
+              persistent context — so you don't have to re-explain things every
+              conversation. Projects are available on free accounts too, with
+              plan-specific limits.
             </p>
 
             <h4>Step 1 — Set Up Your Core Projects</h4>
             <p>
               Create Claude Projects for your main work areas. For each project,
-              add your relevant context as Project Knowledge. Suggested
-              projects:
+              add the relevant Playbook sections, examples, and source files as
+              Project Knowledge. Suggested projects:
             </p>
             <ul>
               <li>
@@ -1457,15 +1862,16 @@
             <h4>Step 2 — Test Each Project</h4>
             <p>
               Open a new conversation in each project and give it a task without
-              any context. It should already know who you are, how you work, and
-              what you need. If it doesn't, add more to the Project Knowledge.
+              any extra context. It should already know who you are, how you
+              work, and what you need. If it doesn't, add more specific Project
+              Knowledge or project instructions.
             </p>
 
             <div class="tip">
-              <strong>Free tier alternative:</strong> If you don't have Claude
-              Pro, you can achieve similar results by starting each conversation
-              with a paste of your relevant Clone Blueprint section. It takes 10
-              extra seconds but works well.
+              <strong>If you hit a Project limit:</strong> You can achieve
+              similar results by starting each conversation with the relevant
+              Clone Blueprint section. It takes a little extra copying, but the
+              workflow still works.
             </div>
           </div>
         </div>
@@ -1624,9 +2030,11 @@
 
             <h4>Power Move: Claude Creates Files</h4>
             <p>
-              Claude can create actual Word documents, PDFs, and spreadsheets.
-              When you need a polished deliverable, just ask: "Create this as a
-              Word document with professional formatting."
+              When file creation is available in your Claude plan and workspace,
+              ask for polished deliverables directly: "Create this as a Word
+              document with professional formatting." If file creation is not
+              available, ask Claude for the final formatted text and paste it
+              into Word, Google Docs, or your preferred tool.
             </p>
           </div>
         </div>
@@ -1934,7 +2342,7 @@
               examples: anything involving specific numbers/data you haven't
               provided, legal/compliance content, sensitive personnel
               communications, financial commitments, anything requiring current
-              real-time information without web search.
+              real-time information without web search or a trusted connector.
             </p>
           </div>
         </div>
@@ -1974,8 +2382,8 @@
             </div>
 
             <p>
-              This v2.0 becomes your definitive system. Update your User
-              Preferences and Project Knowledge accordingly.
+              This v2.0 becomes your definitive system. Update Instructions for
+              Claude and your Project Knowledge accordingly.
             </p>
 
             <div class="tip">
@@ -2125,11 +2533,13 @@
 
             <h4>Explore Claude's Expanding Features</h4>
             <p>
-              Make sure you're using all of Claude's capabilities: web search
-              for current information, file uploads for working with documents,
-              Projects for persistent context, custom Styles for consistent
-              voice, artifacts for interactive content, and the API for advanced
-              automation.
+              Make sure you're using the Claude capabilities that fit your plan
+              and risk tolerance: web search for current information when
+              available, file uploads for working with documents, Projects for
+              persistent context, custom Styles for consistent voice, artifacts
+              for interactive content, Desktop Extensions for local tools,
+              custom connectors for trusted remote systems, and the API for
+              advanced automation.
             </p>
           </div>
         </div>
@@ -2151,16 +2561,16 @@
             <p>Tomorrow, from the moment you start working until you stop:</p>
             <ol>
               <li>
-                Open Claude before starting ANY task and ask: "Can Claude help
-                with this?"
+                Open Claude Desktop before starting ANY task and ask: "Can
+                Claude help with this?"
               </li>
               <li>Use your prompt templates for every applicable task</li>
               <li>
                 Track every interaction: task, time saved, quality rating (1-10)
               </li>
               <li>
-                Note every friction point: where did you have to abandon Claude?
-                Why?
+                Note every friction point: where did you have to stop using
+                Claude or take over manually? Why?
               </li>
               <li>At end of day, calculate total time saved</li>
             </ol>
@@ -2232,7 +2642,7 @@
             <ul>
               <li>
                 <strong>Daily:</strong> Use your morning check-in prompt. Use
-                Claude for every applicable task.
+                Claude Desktop for every applicable task.
               </li>
               <li>
                 <strong>Weekly:</strong> 15-minute Friday review using your
