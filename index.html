@@ -1,0 +1,2284 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Build Your AI Clone — 6-Week Workshop with Claude</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --bg: #0a0a0f;
+        --surface: #12121a;
+        --surface2: #1a1a26;
+        --border: #2a2a3a;
+        --text: #e8e6f0;
+        --text-dim: #8a879a;
+        --accent: #c9a0ff;
+        --accent2: #7b61ff;
+        --accent3: #ff8a65;
+        --success: #66d9a0;
+        --tag-bg: #1e1b2e;
+        --glow: rgba(201, 160, 255, 0.08);
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: 'DM Sans', sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.7;
+        min-height: 100vh;
+      }
+
+      /* Hero */
+      .hero {
+        padding: 80px 24px 60px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        border-bottom: 1px solid var(--border);
+      }
+      .hero::before {
+        content: '';
+        position: absolute;
+        top: -200px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 800px;
+        height: 800px;
+        background: radial-gradient(
+          circle,
+          rgba(123, 97, 255, 0.12) 0%,
+          rgba(201, 160, 255, 0.05) 40%,
+          transparent 70%
+        );
+        pointer-events: none;
+      }
+      .hero-badge {
+        display: inline-block;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        color: var(--accent);
+        border: 1px solid var(--accent2);
+        padding: 6px 18px;
+        border-radius: 100px;
+        margin-bottom: 28px;
+        position: relative;
+      }
+      .hero h1 {
+        font-family: 'DM Serif Display', serif;
+        font-size: clamp(2.2rem, 5vw, 3.8rem);
+        line-height: 1.15;
+        max-width: 720px;
+        margin: 0 auto 20px;
+        background: linear-gradient(135deg, #fff 30%, var(--accent) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .hero p {
+        font-size: 1.1rem;
+        color: var(--text-dim);
+        max-width: 560px;
+        margin: 0 auto 36px;
+      }
+      .hero-stats {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        flex-wrap: wrap;
+      }
+      .hero-stat {
+        text-align: center;
+      }
+      .hero-stat strong {
+        display: block;
+        font-family: 'DM Serif Display', serif;
+        font-size: 2rem;
+        color: var(--accent);
+      }
+      .hero-stat span {
+        font-size: 0.8rem;
+        color: var(--text-dim);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      /* Navigation */
+      .week-nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(10, 10, 15, 0.92);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border);
+        padding: 0 24px;
+        overflow-x: auto;
+      }
+      .week-nav-inner {
+        display: flex;
+        max-width: 900px;
+        margin: 0 auto;
+        gap: 0;
+      }
+      .week-nav a {
+        flex-shrink: 0;
+        padding: 16px 20px;
+        color: var(--text-dim);
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-weight: 500;
+        border-bottom: 2px solid transparent;
+        transition: all 0.2s;
+        white-space: nowrap;
+      }
+      .week-nav a:hover {
+        color: var(--accent);
+        border-bottom-color: var(--accent2);
+      }
+
+      /* Container */
+      .container {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+
+      /* Intro section */
+      .intro {
+        padding: 60px 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .intro h2 {
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+      }
+      .intro p {
+        color: var(--text-dim);
+        margin-bottom: 14px;
+      }
+
+      .prereqs {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 28px 32px;
+        margin-top: 28px;
+      }
+      .prereqs h3 {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: var(--accent);
+        margin-bottom: 14px;
+      }
+      .prereqs ul {
+        list-style: none;
+        display: grid;
+        gap: 10px;
+      }
+      .prereqs li {
+        color: var(--text-dim);
+        padding-left: 24px;
+        position: relative;
+      }
+      .prereqs li::before {
+        content: '→';
+        position: absolute;
+        left: 0;
+        color: var(--accent2);
+      }
+
+      /* Week sections */
+      .week-section {
+        padding: 70px 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .week-header {
+        display: flex;
+        align-items: flex-start;
+        gap: 20px;
+        margin-bottom: 32px;
+      }
+      .week-number {
+        flex-shrink: 0;
+        width: 56px;
+        height: 56px;
+        background: linear-gradient(135deg, var(--accent2), var(--accent));
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.4rem;
+        color: #0a0a0f;
+        font-weight: 700;
+      }
+      .week-header-text h2 {
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.7rem;
+        margin-bottom: 4px;
+      }
+      .week-header-text .subtitle {
+        color: var(--text-dim);
+        font-size: 0.95rem;
+      }
+
+      .goal-box {
+        background: var(--glow);
+        border-left: 3px solid var(--accent2);
+        padding: 18px 24px;
+        border-radius: 0 10px 10px 0;
+        margin-bottom: 32px;
+      }
+      .goal-box strong {
+        color: var(--accent);
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        display: block;
+        margin-bottom: 6px;
+      }
+
+      /* Day blocks */
+      .day {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        margin-bottom: 16px;
+        overflow: hidden;
+        transition: border-color 0.2s;
+      }
+      .day:hover {
+        border-color: var(--accent2);
+      }
+
+      .day-header {
+        padding: 20px 24px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        user-select: none;
+      }
+      .day-tag {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--accent3);
+        background: rgba(255, 138, 101, 0.1);
+        padding: 4px 10px;
+        border-radius: 6px;
+        flex-shrink: 0;
+      }
+      .day-title {
+        font-weight: 600;
+        flex: 1;
+      }
+      .day-toggle {
+        color: var(--text-dim);
+        font-size: 1.2rem;
+        transition: transform 0.3s;
+        flex-shrink: 0;
+      }
+      .day.open .day-toggle {
+        transform: rotate(45deg);
+      }
+
+      .day-content {
+        display: none;
+        padding: 0 24px 24px;
+        border-top: 1px solid var(--border);
+      }
+      .day.open .day-content {
+        display: block;
+      }
+
+      .day-content h4 {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--accent);
+        margin: 20px 0 10px;
+      }
+      .day-content p,
+      .day-content li {
+        color: var(--text-dim);
+        font-size: 0.95rem;
+        line-height: 1.8;
+      }
+      .day-content ul,
+      .day-content ol {
+        padding-left: 20px;
+        margin-bottom: 10px;
+      }
+      .day-content li {
+        margin-bottom: 8px;
+      }
+
+      .prompt-block {
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 16px 20px;
+        margin: 12px 0;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.82rem;
+        line-height: 1.7;
+        color: var(--text);
+        white-space: pre-wrap;
+        word-break: break-word;
+        position: relative;
+      }
+      .prompt-block::before {
+        content: 'PROMPT';
+        position: absolute;
+        top: -9px;
+        left: 14px;
+        font-size: 0.6rem;
+        letter-spacing: 2px;
+        color: var(--accent2);
+        background: var(--surface2);
+        padding: 0 8px;
+      }
+      .prompt-block .copy-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: var(--border);
+        border: none;
+        color: var(--text-dim);
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-size: 0.65rem;
+        font-family: 'JetBrains Mono', monospace;
+        cursor: pointer;
+        letter-spacing: 1px;
+        transition: all 0.2s;
+      }
+      .prompt-block .copy-btn:hover {
+        background: var(--accent2);
+        color: #fff;
+      }
+
+      .tip {
+        background: rgba(102, 217, 160, 0.06);
+        border-left: 3px solid var(--success);
+        padding: 14px 18px;
+        border-radius: 0 8px 8px 0;
+        margin: 14px 0;
+        font-size: 0.9rem;
+        color: var(--text-dim);
+      }
+      .tip strong {
+        color: var(--success);
+      }
+
+      /* Footer */
+      .footer {
+        padding: 60px 0;
+        text-align: center;
+      }
+      .footer h2 {
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.6rem;
+        margin-bottom: 14px;
+      }
+      .footer p {
+        color: var(--text-dim);
+        max-width: 500px;
+        margin: 0 auto;
+      }
+
+      /* Scrollbar */
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--bg);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 3px;
+      }
+
+      @media (max-width: 600px) {
+        .hero {
+          padding: 50px 20px 40px;
+        }
+        .hero-stats {
+          gap: 24px;
+        }
+        .week-section {
+          padding: 40px 0;
+        }
+        .week-header {
+          flex-direction: column;
+          gap: 12px;
+        }
+        .prereqs {
+          padding: 20px;
+        }
+        .day-header {
+          padding: 16px 18px;
+        }
+        .day-content {
+          padding: 0 18px 18px;
+        }
+        .prompt-block {
+          font-size: 0.75rem;
+          padding: 14px 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-badge">Free · Self-Guided · 100% Claude</div>
+      <h1>Build Your AI Clone System in 6 Weeks</h1>
+      <p>
+        A detailed, step-by-step workshop to create a personal AI partner that
+        knows your voice, handles your busywork, and grows with you — using
+        nothing but Claude.
+      </p>
+      <div class="hero-stats">
+        <div class="hero-stat"><strong>6</strong><span>Weeks</span></div>
+        <div class="hero-stat"><strong>30</strong><span>Sessions</span></div>
+        <div class="hero-stat"><strong>90+</strong><span>Prompts</span></div>
+        <div class="hero-stat">
+          <strong>15h+</strong><span>Saved / week</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- NAV -->
+    <nav class="week-nav">
+      <div class="week-nav-inner">
+        <a href="#setup">Setup</a>
+        <a href="#week1">Wk 1 · Clone Builder</a>
+        <a href="#week2">Wk 2 · Activate</a>
+        <a href="#week3">Wk 3 · Your Voice</a>
+        <a href="#week4">Wk 4 · Create Daily</a>
+        <a href="#week5">Wk 5 · Automate</a>
+        <a href="#week6">Wk 6 · Scale</a>
+      </div>
+    </nav>
+
+    <div class="container">
+      <!-- INTRO -->
+      <section class="intro" id="setup">
+        <h2>Before You Begin</h2>
+        <p>
+          This workshop is designed so you do one session per weekday (5 per
+          week) for 6 weeks. Each session takes 30–60 minutes. By the end,
+          you'll have a fully personalized AI system built on Claude that
+          handles real work.
+        </p>
+        <p>
+          You don't need any coding experience. You don't need any prior AI
+          experience. You just need Claude and the willingness to actually do
+          the exercises — not just read them.
+        </p>
+
+        <div class="prereqs">
+          <h3>What You Need</h3>
+          <ul>
+            <li>
+              A Claude account (free tier works; Pro unlocks longer
+              conversations and more usage)
+            </li>
+            <li>
+              A notes app or Google Doc for your "AI Clone Playbook" — a living
+              document you'll build throughout
+            </li>
+            <li>
+              A list of your current weekly tasks/responsibilities (rough is
+              fine)
+            </li>
+            <li>30–60 minutes per weekday for 6 weeks</li>
+            <li>
+              Your willingness to be specific and honest about how you work
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ===================== WEEK 1 ===================== -->
+      <section class="week-section" id="week1">
+        <div class="week-header">
+          <div class="week-number">1</div>
+          <div class="week-header-text">
+            <h2>Clone Builder — Build It In One Week</h2>
+            <div class="subtitle">
+              Create your AI Clone's foundation: who you are, how you think,
+              what you need.
+            </div>
+          </div>
+        </div>
+
+        <div class="goal-box">
+          <strong>Week Goal</strong>
+          By Friday, you'll have a comprehensive "Clone Blueprint" — a master
+          document that turns Claude into a personalized partner that knows your
+          context, goals, and preferences.
+        </div>
+
+        <!-- Day 1 -->
+        <div class="day" onclick="this.classList.toggle('open')">
+          <div class="day-header">
+            <span class="day-tag">Day 1</span>
+            <span class="day-title">The Brain Dump — Map Your World</span>
+            <span class="day-toggle">+</span>
+          </div>
+          <div class="day-content">
+            <h4>What You'll Do</h4>
+            <p>
+              Today is about extracting everything from your head and putting it
+              into a format Claude can work with. You're going to create your
+              personal context document.
+            </p>
+
+            <h4>Step 1 — Write Your "About Me" Brief (15 min)</h4>
+            <p>
+              Open your AI Clone Playbook doc and write answers to these
+              questions. Be specific — generic answers create a generic clone.
+            </p>
+            <ol>
+              <li>
+                What do you do for work? (Title, industry, company type, who you
+                serve)
+              </li>
+              <li>
+                What are your 3 biggest professional goals for the next 6
+                months?
+              </li>
+              <li>What are your 3 biggest personal goals?</li>
+              <li>
+                What does a typical work week look like? (Walk through Monday to
+                Friday)
+              </li>
+              <li>
+                What tools/platforms do you use daily? (Email, Slack, Notion,
+                etc.)
+              </li>
+              <li>What are the recurring tasks you do every week?</li>
+              <li>What are the tasks you hate doing but can't avoid?</li>
+              <li>
+                What's your communication style? (Formal? Casual? Direct? Warm?)
+              </li>
+            </ol>
+
+            <h4>Step 2 — Feed It to Claude (15 min)</h4>
+            <p>
+              Now take everything you wrote and bring it to Claude with this
+              prompt:
+            </p>
+
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >I'm building a personal AI Clone system with you — an AI partner
+              trained on my context that can help me with daily work. Here's my
+              full context. I want you to read this carefully, then do two
+              things: 1. Summarize back to me who I am and what I need in a
+              structured "Clone Profile" format 2. Ask me 10 follow-up questions
+              that would help you assist me even better — things I probably
+              forgot to mention Here's my info: [PASTE YOUR ABOUT ME BRIEF]
+            </div>
+
+            <h4>Step 3 — Refine the Profile (15 min)</h4>
+            <p>
+              Answer Claude's follow-up questions. Then ask Claude to produce a
+              final "Clone Profile v1" that combines everything. Save this to
+              your Playbook doc — this is the foundation of everything.
+            </p>
+
+            <div class="tip">
+              <strong>Pro tip:</strong> Set this Clone Profile as your Claude
+              "User Preferences" in Settings. That way every new conversation
+              starts with your context already loaded.
+            </div>
+          </div>
+        </div>
+
+        <!-- Day 2 -->
+        <div class="day" onclick="this.classList.toggle('open')">
+          <div class="day-header">
+            <span class="day-tag">Day 2</span>
+            <span class="day-title">The Time Audit — Find Your 15 Hours</span>
+            <span class="day-toggle">+</span>
+          </div>
+          <div class="day-content">
+            <h4>What You'll Do</h4>
+            <p>
+              You can't buy back time you haven't accounted for. Today you audit
+              every recurring task and categorize it by AI-readiness.
+            </p>
+
+            <h4>Step 1 — Task Inventory (20 min)</h4>
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >I want to audit my time to find 15+ hours a week I can buy back
+              with AI. Here's what I need you to do: 1. Based on my Clone
+              Profile, list every recurring task you think I do weekly
+              (professional and personal). Make educated guesses — I'll correct
+              you. 2. For each task, estimate the time per week. 3. Categorize
+              each task into one of 4 buckets: - 🟢 AUTOMATE NOW: Claude can do
+              80%+ of this right away - 🟡 ACCELERATE: Claude can cut the time
+              in half with the right setup - 🟠 AUGMENT: Claude can help but I
+              still drive - 🔴 HUMAN ONLY: Requires my physical presence or
+              deeply personal judgment Format this as a table with columns: Task
+              | Time/Week | Category | How Claude Helps
+            </div>
+
+            <h4>Step 2 — Correct and Complete (15 min)</h4>
+            <p>
+              Review Claude's list. Add tasks it missed. Correct time estimates.
+              Push back where you disagree on categories — this conversation
+              will teach Claude how you think about your work.
+            </p>
+
+            <h4>Step 3 — Build Your Priority Queue (10 min)</h4>
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >Now sort all the 🟢 and 🟡 tasks by this formula: (time saved per
+              week) × (ease of setup with Claude). Give me a ranked priority
+              list of the top 10 tasks to automate/accelerate first, with a
+              one-line description of how we'll set each one up.
+            </div>
+
+            <p>
+              Save this priority list. It's your roadmap for the next 5 weeks.
+            </p>
+          </div>
+        </div>
+
+        <!-- Day 3 -->
+        <div class="day" onclick="this.classList.toggle('open')">
+          <div class="day-header">
+            <span class="day-tag">Day 3</span>
+            <span class="day-title">Style & Voice Calibration</span>
+            <span class="day-toggle">+</span>
+          </div>
+          <div class="day-content">
+            <h4>What You'll Do</h4>
+            <p>
+              The difference between a useful AI and one that feels "off" is
+              voice. Today you teach Claude exactly how you communicate.
+            </p>
+
+            <h4>Step 1 — Collect Writing Samples (15 min)</h4>
+            <p>
+              Gather 5–10 real examples of things you've written. The more
+              variety, the better:
+            </p>
+            <ul>
+              <li>
+                2–3 emails you've sent (work emails, client emails, casual
+                emails)
+              </li>
+              <li>1–2 social media posts or messages</li>
+              <li>1 longer piece (blog post, report, proposal section)</li>
+              <li>Any Slack/Teams messages that feel very "you"</li>
+            </ul>
+
+            <h4>Step 2 — Voice Analysis</h4>
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >I'm going to give you samples of my real writing. I want you to
+              analyze my communication style deeply and create a "Voice Profile"
+              I can use in future prompts. Focus on: - Tone (formal ↔ casual
+              spectrum) - Sentence structure (short & punchy vs. long & flowing)
+              - Vocabulary level and any signature phrases I use - How I open
+              and close messages - My personality that comes through (humor?
+              directness? warmth?) - Any quirks or patterns Here are my writing
+              samples: [PASTE YOUR SAMPLES] After analyzing, create a "Voice
+              Profile" document I can paste into future prompts so Claude writes
+              like me.
+            </div>
+
+            <h4>Step 3 — Test It</h4>
+            <p>Now test the voice profile immediately:</p>
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >Using my Voice Profile above, draft a short email declining a
+              meeting invitation because I have a scheduling conflict. Keep it
+              100% in my voice.
+            </div>
+
+            <p>
+              Compare Claude's draft to how you'd actually write it. Give it
+              feedback: "Too formal," "I'd never say 'I appreciate your
+              understanding,'" "Add a bit more warmth." Iterate until it nails
+              your voice. Save the final Voice Profile to your Playbook.
+            </p>
+
+            <div class="tip">
+              <strong>Pro tip:</strong> You can use Claude's custom Style
+              feature. Go to Settings → Style → Create a custom style. Paste
+              your writing samples and Claude will learn your voice across all
+              conversations.
+            </div>
+          </div>
+        </div>
+
+        <!-- Day 4 -->
+        <div class="day" onclick="this.classList.toggle('open')">
+          <div class="day-header">
+            <span class="day-tag">Day 4</span>
+            <span class="day-title">Build Your Master Prompt Library</span>
+            <span class="day-toggle">+</span>
+          </div>
+          <div class="day-content">
+            <h4>What You'll Do</h4>
+            <p>
+              Today you'll build reusable prompts for your top 5 priority tasks
+              — the ones that will save you the most time starting next week.
+            </p>
+
+            <h4>Step 1 — Design Your First 5 Task Prompts</h4>
+            <p>
+              Take the top 5 tasks from your priority queue (Day 2). For each
+              one, work with Claude to create a reusable prompt template.
+            </p>
+
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >I need to create a reusable prompt template for this recurring
+              task: Task: [DESCRIBE THE TASK] How often: [DAILY/WEEKLY/ETC]
+              Current time spent: [X MINUTES/HOURS] What good output looks like:
+              [DESCRIBE] What bad output looks like: [DESCRIBE] Create a prompt
+              template I can reuse every time. Include: 1. Clear role/context
+              instructions for Claude 2. Placeholder slots I fill in each time
+              (mark with [BRACKETS]) 3. Output format instructions 4. Quality
+              checks / "make sure you..." rules 5. My voice profile
+              considerations if relevant Make the prompt so good that I can get
+              80%+ quality output on the first try.
+            </div>
+
+            <p>
+              Repeat for all 5 tasks. Save each prompt template to your Playbook
+              under a "Prompt Library" section.
+            </p>
+
+            <h4>Step 2 — Test Each Prompt Live</h4>
+            <p>
+              Pick a real example for each prompt and run it. Don't use
+              hypothetical data — use an actual email you need to write, a real
+              report you need to draft, a genuine social post you need to
+              create. Grade the output: would you use it as-is, edit slightly,
+              or start over?
+            </p>
+
+            <h4>Step 3 — Iterate Until 80%+ Quality</h4>
+            <p>
+              For any prompt that didn't hit 80%, refine it. Common fixes: add
+              more context, provide an example of ideal output, be more specific
+              about tone/length/format, or add constraints about what NOT to do.
+            </p>
+          </div>
+        </div>
+
+        <!-- Day 5 -->
+        <div class="day" onclick="this.classList.toggle('open')">
+          <div class="day-header">
+            <span class="day-tag">Day 5</span>
+            <span class="day-title">Assemble Your Clone Blueprint v1.0</span>
+            <span class="day-toggle">+</span>
+          </div>
+          <div class="day-content">
+            <h4>What You'll Do</h4>
+            <p>
+              Bring everything together into one master document — your Clone
+              Blueprint. This is the single document that turns any new Claude
+              conversation into YOUR personal assistant.
+            </p>
+
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >Help me assemble my final Clone Blueprint v1.0. Take all the
+              pieces we've built this week and organize them into one clean,
+              structured document: 1. CLONE PROFILE (who I am, what I do, my
+              goals, my tools) 2. VOICE PROFILE (how I communicate, my style
+              rules) 3. PRIORITY TASK LIST (what I need help with most) 4.
+              PROMPT LIBRARY (my top 5 reusable prompts) 5. RULES & PREFERENCES
+              (things Claude should always/never do for me) For section 5,
+              interview me: ask me 10 questions about my preferences for how AI
+              should assist me — things like: do I want Claude to ask clarifying
+              questions or just take its best shot? Should Claude default to
+              short or detailed responses? How should Claude handle tasks it's
+              unsure about? Format the final document so I can paste it into
+              Claude's User Preferences or at the start of any conversation.
+            </div>
+
+            <p>
+              Once assembled, paste the key sections into Claude's User
+              Preferences (Settings → User Preferences). Keep the full document
+              in your Playbook for reference.
+            </p>
+
+            <div class="tip">
+              <strong>Week 1 Checkpoint:</strong> You should now have a Clone
+              Profile, Voice Profile, Time Audit, Priority Queue, 5 tested
+              prompt templates, and a complete Clone Blueprint. If any piece
+              feels thin, spend extra time on it before moving to Week 2.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== WEEK 2 ===================== -->
+      <section class="week-section" id="week2">
+        <div class="week-header">
+          <div class="week-number">2</div>
+          <div class="week-header-text">
+            <h2>Activate — Start Getting Time Back</h2>
+            <div class="subtitle">
+              Put your Clone to work on real tasks. Start building the habit.
+            </div>
+          </div>
+        </div>
+
+        <div class="goal-box">
+          <strong>Week Goal</strong>
+          Use your Clone for at least 5 real work tasks and track how much time
+          you save. Target: 3+ hours saved this week.
+        </div>
+
+        <!-- Day 6 -->
+        <div class="day" onclick="this.classList.toggle('open')">
+          <div class="day-header">
+            <span class="day-tag">Day 6</span>
+            <span class="day-title">Email & Communication Takeover</span>
+            <span class="day-toggle">+</span>
+          </div>
+          <div class="day-content">
+            <h4>What You'll Do</h4>
+            <p>
+              Email is the #1 time-suck for most professionals. Today you'll set
+              up Claude as your email drafting partner.
+            </p>
+
+            <h4>Step 1 — Build Your Email System</h4>
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >I want to create a system for drafting emails quickly. Here are
+              the types of emails I send most often: 1. [TYPE 1 — e.g., "client
+              follow-ups after meetings"] 2. [TYPE 2 — e.g., "internal status
+              updates to my team"] 3. [TYPE 3 — e.g., "cold outreach to
+              potential partners"] 4. [TYPE 4 — e.g., "scheduling/logistics
+              coordination"] 5. [TYPE 5 — e.g., "responding to inbound
+              inquiries"] For each type, create a reusable prompt template that
+              includes: - Context I need to provide each time (keep it minimal —
+              bullet points only) - Tone/voice instructions from my Voice
+              Profile - Default length and format - Subject line generation Make
+              each template so fast to use that I spend under 60 seconds
+              providing inputs.
+            </div>
+
+            <h4>Step 2 — Process Real Emails</h4>
+            <p>
+              Open your inbox right now. Pick 5 emails that need responses. For
+              each one, paste the email into Claude with the appropriate
+              template. Time yourself — you should be drafting replies in 1–2
+              minutes each instead of 5–10.
+            </p>
+
+            <h4>Step 3 — Build a "Quick Reply" Cheat Sheet</h4>
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >Based on my communication patterns, create a "Quick Reply Cheat
+              Sheet" — a list of 15 common email scenarios with pre-written
+              responses in my voice that I can copy-paste with minor edits.
+              Include: - Scheduling confirmations - Meeting declines - Thank you
+              follow-ups - "I'll get back to you" placeholders -
+              Introductions/referrals - Request for more information And any
+              other patterns you've noticed from my profile.
+            </div>
+          </div>
+        </div>
+
+        <!-- Day 7 -->
+        <div class="day" onclick="this.classList.toggle('open')">
+          <div class="day-header">
+            <span class="day-tag">Day 7</span>
+            <span class="day-title">Content Creation Sprint</span>
+            <span class="day-toggle">+</span>
+          </div>
+          <div class="day-content">
+            <h4>What You'll Do</h4>
+            <p>
+              Set up Claude as your content creation partner — whether that's
+              social media, blog posts, newsletters, or internal documents.
+            </p>
+
+            <h4>Step 1 — Content Strategy Session</h4>
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >I need to create content regularly for my work. Here's my content
+              landscape: - Platforms I post on: [LIST THEM] - Topics I cover:
+              [LIST THEM] - Frequency goals: [e.g., "3 LinkedIn posts/week, 1
+              newsletter/month"] - My content goals: [e.g., "build authority,"
+              "drive leads," "engage community"] - Audiences: [WHO READS MY
+              STUFF] Create a content workflow system for me: 1. A weekly
+              content calendar template 2. An "idea generation" prompt I can run
+              whenever I'm stuck 3. A "draft from idea" prompt for each platform
+              4. A "review and polish" prompt for final editing
+            </div>
+
+            <h4>Step 2 — Create Real Content</h4>
+            <p>
+              Use your new system to actually create this week's content. Start
+              with whatever is most urgent or overdue. Let Claude draft, then
+              edit with your own judgment — don't publish anything that doesn't
+              feel like you.
+            </p>
+
+            <h4>Step 3 — Build a Content Bank</h4>
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >Generate 20 content ideas for me based on my expertise, audience,
+              and goals. For each idea, give me: - A headline/hook - 3 key
+              points to cover - Which platform it's best for - Estimated time to
+              create with Claude's help Organize by theme/pillar so I can
+              batch-create related content.
+            </div>
+          </div>
+        </div>
+
+        <!-- Day 8 -->
+        <div class="day" onclick="this.classList.toggle('open')">
+          <div class="day-header">
+            <span class="day-tag">Day 8</span>
+            <span class="day-title">Research & Analysis Accelerator</span>
+            <span class="day-toggle">+</span>
+          </div>
+          <div class="day-content">
+            <h4>What You'll Do</h4>
+            <p>
+              Learn to use Claude for research, analysis, and decision-making
+              support — turning hours of Googling into minutes of structured
+              insight.
+            </p>
+
+            <h4>Step 1 — Research Prompt Templates</h4>
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >I frequently need to research topics for my work. Create 3
+              research prompt templates: 1. QUICK RESEARCH: For when I need a
+              fast overview of a topic (5-min result) - Structured as: Key facts
+              → Pros/Cons → My recommended action 2. DEEP DIVE: For when I need
+              thorough analysis (detailed result) - Structured as: Background →
+              Current state → Key players → Trends → Opportunities → Risks →
+              Sources to check 3. COMPETITIVE ANALYSIS: For comparing
+              options/tools/vendors - Structured as: Comparison matrix →
+              Strengths/Weaknesses → Price analysis → Recommendation with
+              reasoning Make each one reusable with [BRACKET] placeholders.
+            </div>
+
+            <h4>Step 2 — Run a Real Research Task</h4>
+            <p>
+              Pick something you actually need to research this week. Use the
+              appropriate template. Note: Claude can search the web, so ask it
+              to find current information when needed.
+            </p>
+
+            <h4>Step 3 — Decision Framework</h4>
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >I have a decision to make: [DESCRIBE THE DECISION] Walk me
+              through this using a structured decision framework: 1. Clarify the
+              decision and what's really at stake 2. List all viable options
+              (including ones I haven't considered) 3. Define my evaluation
+              criteria based on my goals and values (reference my Clone Profile)
+              4. Score each option against the criteria 5. Identify what
+              additional information would change the answer 6. Give me your
+              recommendation and reasoning Be honest — challenge my assumptions
+              if you see blind spots.
+            </div>
+          </div>
+        </div>
+
+        <!-- Day 9 -->
+        <div class="day" onclick="this.classList.toggle('open')">
+          <div class="day-header">
+            <span class="day-tag">Day 9</span>
+            <span class="day-title">Meeting Prep & Follow-Up System</span>
+            <span class="day-toggle">+</span>
+          </div>
+          <div class="day-content">
+            <h4>What You'll Do</h4>
+            <p>
+              Meetings eat time before, during, and after. Today you build
+              systems for all three phases.
+            </p>
+
+            <h4>Meeting Prep Template</h4>
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >I have a meeting coming up. Help me prepare: Meeting with: [WHO]
+              Topic: [WHAT] My goal for this meeting: [WHAT I WANT TO ACHIEVE]
+              Background context: [ANY RELEVANT CONTEXT] Create: 1. A 5-point
+              agenda I can share with attendees 2. 3 key questions I should ask
+              3. Potential objections or concerns they might raise, with my
+              talking points 4. A one-paragraph opening that sets the right tone
+              5. My ideal outcome and the specific ask/next step I should
+              propose
+            </div>
+
+            <h4>Meeting Notes → Action Items</h4>
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >Here are my rough notes from a meeting I just had: [PASTE ROUGH
+              NOTES — even messy bullet points work] Turn these into: 1. A clean
+              summary (3-5 sentences) 2. Action items with owners and deadlines
+              3. Key decisions that were made 4. Open questions that still need
+              answers 5. A follow-up email I can send to attendees (in my voice)
+            </div>
+
+            <h4>Practice With a Real Meeting</h4>
+            <p>
+              Use these templates on your next meeting today or tomorrow. Prep
+              in 5 minutes instead of 20. Send follow-up notes within an hour
+              instead of forgetting about them.
+            </p>
+          </div>
+        </div>
+
+        <!-- Day 10 -->
+        <div class="day" onclick="this.classList.toggle('open')">
+          <div class="day-header">
+            <span class="day-tag">Day 10</span>
+            <span class="day-title">Week 2 Review & Time Savings Log</span>
+            <span class="day-toggle">+</span>
+          </div>
+          <div class="day-content">
+            <h4>What You'll Do</h4>
+            <p>Measure your progress. Refine what's working. Fix what isn't.</p>
+
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >It's the end of Week 2 of building my AI Clone system. Help me do
+              a retrospective: Here's what I used Claude for this week and my
+              rough time estimates: [LIST EVERY TASK YOU USED CLAUDE FOR AND HOW
+              LONG IT TOOK vs. HOW LONG IT WOULD HAVE TAKEN WITHOUT] Analyze: 1.
+              Total estimated time saved this week 2. Which workflows are
+              working best (highest ROI)? 3. Which workflows need improvement?
+              4. What tasks from my priority queue should I tackle next week? 5.
+              What adjustments should I make to my Clone Blueprint? Be honest if
+              I'm underutilizing Claude or if I'm using it for things where it's
+              not actually saving time.
+            </div>
+
+            <p>
+              Update your Clone Blueprint with any refinements. Update your
+              Prompt Library with improved versions of any templates.
+            </p>
+
+            <div class="tip">
+              <strong>Week 2 Checkpoint:</strong> You should have used Claude
+              for at least 5 real tasks this week. Target is 3+ hours saved. If
+              you're below that, you're either not using it enough or your
+              prompts need work. Go back and refine.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== WEEK 3 ===================== -->
+      <section class="week-section" id="week3">
+        <div class="week-header">
+          <div class="week-number">3</div>
+          <div class="week-header-text">
+            <h2>Accelerate — Train It In Your Voice</h2>
+            <div class="subtitle">
+              Go deeper on voice, refine outputs, and build domain-specific
+              knowledge.
+            </div>
+          </div>
+        </div>
+
+        <div class="goal-box">
+          <strong>Week Goal</strong>
+          Claude's outputs should now be 90%+ indistinguishable from your own
+          work. You'll build domain expertise into your Clone and create
+          advanced workflows.
+        </div>
+
+        <div class="day" onclick="this.classList.toggle('open')">
+          <div class="day-header">
+            <span class="day-tag">Day 11</span>
+            <span class="day-title"
+              >Advanced Voice Training — The Red Pen Exercise</span
+            >
+            <span class="day-toggle">+</span>
+          </div>
+          <div class="day-content">
+            <h4>What You'll Do</h4>
+            <p>
+              Go through 5 outputs Claude created last week. For each one, mark
+              up exactly what you changed before using it. Feed all corrections
+              back to Claude.
+            </p>
+
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >I'm training you to write more like me. Here are 5 things you
+              drafted for me last week, alongside my edited versions. Study the
+              differences and tell me: 1. What patterns do you see in my edits?
+              2. What does my voice do that yours doesn't (yet)? 3. What
+              specific rules should I add to my Voice Profile? DRAFT 1 (yours):
+              [PASTE] FINAL 1 (mine): [PASTE] [REPEAT FOR ALL 5] Then update my
+              Voice Profile with new rules based on these patterns.
+            </div>
+
+            <p>
+              This iterative feedback loop is how you get Claude from "decent AI
+              output" to "sounds exactly like me."
+            </p>
+          </div>
+        </div>
+
+        <div class="day" onclick="this.classList.toggle('open')">
+          <div class="day-header">
+            <span class="day-tag">Day 12</span>
+            <span class="day-title">Domain Knowledge Upload</span>
+            <span class="day-toggle">+</span>
+          </div>
+          <div class="day-content">
+            <h4>What You'll Do</h4>
+            <p>
+              Teach Claude the specialized knowledge of your field that it
+              wouldn't know on its own.
+            </p>
+
+            <h4>Step 1 — Create Your Domain Briefing</h4>
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >I need to teach you about my specific domain/industry so you can
+              be a better partner. I'm going to give you a "Domain Briefing" —
+              the insider knowledge that someone new to my field wouldn't have.
+              Interview me. Ask me 15 questions about: - Industry-specific
+              terminology and jargon - Unwritten rules and norms - Common
+              mistakes newcomers make - Key frameworks or methodologies we use -
+              Who the major players/competitors are - What's trending vs.
+              outdated - What our customers/clients actually care about (vs.
+              what they say they care about) - The politics/dynamics of my
+              specific role Ask me 5 questions at a time so we can go deep.
+            </div>
+
+            <h4>Step 2 — Upload Key Documents</h4>
+            <p>
+              Feed Claude examples of domain-specific work: past reports,
+              proposals, decks, strategy docs, SOPs. You can upload files
+              directly in Claude. For each one, tell Claude what it is and what
+              to learn from it.
+            </p>
+
+            <h4>Step 3 — Create a Domain Knowledge Sheet</h4>
+            <p>
+              Ask Claude to summarize everything into a structured "Domain
+              Knowledge Sheet" you can reference in future prompts. Add it to
+              your Playbook.
+            </p>
+          </div>
+        </div>
+
+        <div class="day" onclick="this.classList.toggle('open')">
+          <div class="day-header">
+            <span class="day-tag">Day 13</span>
+            <span class="day-title"
+              >Workflow Chains — Multi-Step Automation</span
+            >
+            <span class="day-toggle">+</span>
+          </div>
+          <div class="day-content">
+            <h4>What You'll Do</h4>
+            <p>
+              Move from single prompts to multi-step workflows — where one
+              Claude output feeds into the next.
+            </p>
+
+            <h4>Example: Content Pipeline Chain</h4>
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >I want to build a multi-step content creation pipeline. Design a
+              workflow chain for creating a [blog post / newsletter / LinkedIn
+              carousel / video script]: Step 1: IDEATION → Given a topic,
+              generate 5 angle options with hooks Step 2: OUTLINE → Take the
+              chosen angle and create a detailed outline Step 3: FIRST DRAFT →
+              Write the full piece from the outline in my voice Step 4: EDIT
+              PASS → Review for clarity, remove filler, strengthen the opening
+              and closing Step 5: PLATFORM OPTIMIZE → Adapt the piece for
+              [specific platform] with proper formatting Step 6: DISTRIBUTION →
+              Write 3 social posts to promote the piece on other platforms Write
+              each step as a standalone prompt I can run in sequence. Each
+              prompt should include instructions to reference the output from
+              the previous step.
+            </div>
+
+            <h4>Build Your Own Chains</h4>
+            <p>
+              Pick 2–3 complex tasks from your workflow and design similar
+              multi-step chains. Common high-value chains: proposal writing,
+              project planning, quarterly reviews, client onboarding materials,
+              market research reports.
+            </p>
+          </div>
+        </div>
+
+        <div class="day" onclick="this.classList.toggle('open')">
+          <div class="day-header">
+            <span class="day-tag">Day 14</span>
+            <span class="day-title">The Feedback Loop System</span>
+            <span class="day-toggle">+</span>
+          </div>
+          <div class="day-content">
+            <h4>What You'll Do</h4>
+            <p>
+              Build a system for continuously improving your Clone's quality
+              over time.
+            </p>
+
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >Help me create a "Clone Improvement Log" template. Every Friday,
+              I want to spend 15 minutes reviewing the week and upgrading my
+              system. The template should prompt me to: 1. Rate Claude's output
+              quality this week (1-10) with specific examples 2. Log any
+              corrections I made repeatedly (these become new rules) 3. Identify
+              new tasks I should add to my automation list 4. Note any prompts
+              that consistently underperform 5. Capture any "aha moments" —
+              tricks or techniques that worked especially well 6. Update my
+              Voice Profile, Domain Knowledge, or Prompt Library as needed Make
+              this a structured template I can fill out quickly each week.
+            </div>
+
+            <p>
+              Do your first review right now for the past two weeks. Add all
+              improvements to your Playbook.
+            </p>
+          </div>
+        </div>
+
+        <div class="day" onclick="this.classList.toggle('open')">
+          <div class="day-header">
+            <span class="day-tag">Day 15</span>
+            <span class="day-title">Projects Feature — Persistent Context</span>
+            <span class="day-toggle">+</span>
+          </div>
+          <div class="day-content">
+            <h4>What You'll Do</h4>
+            <p>
+              Learn to use Claude Projects (available on Pro) to create
+              dedicated workspaces with persistent context — so you don't have
+              to re-explain things every conversation.
+            </p>
+
+            <h4>Step 1 — Set Up Your Core Projects</h4>
+            <p>
+              Create Claude Projects for your main work areas. For each project,
+              add your relevant context as Project Knowledge. Suggested
+              projects:
+            </p>
+            <ul>
+              <li>
+                <strong>Email HQ</strong> — Your voice profile + email templates
+                + quick reply cheat sheet
+              </li>
+              <li>
+                <strong>Content Studio</strong> — Your content strategy + voice
+                profile + content bank + platform guidelines
+              </li>
+              <li>
+                <strong>[Main Work Area]</strong> — Domain knowledge + relevant
+                SOPs + key documents
+              </li>
+              <li>
+                <strong>Weekly Planning</strong> — Goals + priorities + meeting
+                templates + review templates
+              </li>
+            </ul>
+
+            <h4>Step 2 — Test Each Project</h4>
+            <p>
+              Open a new conversation in each project and give it a task without
+              any context. It should already know who you are, how you work, and
+              what you need. If it doesn't, add more to the Project Knowledge.
+            </p>
+
+            <div class="tip">
+              <strong>Free tier alternative:</strong> If you don't have Claude
+              Pro, you can achieve similar results by starting each conversation
+              with a paste of your relevant Clone Blueprint section. It takes 10
+              extra seconds but works well.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== WEEK 4 ===================== -->
+      <section class="week-section" id="week4">
+        <div class="week-header">
+          <div class="week-number">4</div>
+          <div class="week-header-text">
+            <h2>Augment — Create Alongside It Daily</h2>
+            <div class="subtitle">
+              Make Claude your daily thinking partner, not just a task executor.
+            </div>
+          </div>
+        </div>
+
+        <div class="goal-box">
+          <strong>Week Goal</strong>
+          Shift from "I give Claude tasks" to "Claude and I think together."
+          Start using Claude for strategic thinking, creative ideation, and
+          problem-solving.
+        </div>
+
+        <div class="day" onclick="this.classList.toggle('open')">
+          <div class="day-header">
+            <span class="day-tag">Day 16</span>
+            <span class="day-title">Strategic Thinking Partner</span>
+            <span class="day-toggle">+</span>
+          </div>
+          <div class="day-content">
+            <h4>What You'll Do</h4>
+            <p>Use Claude as a sounding board for big-picture thinking.</p>
+
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >I want to think through a strategic challenge. Act as my advisor
+              — someone who knows my business, my goals, and my constraints, but
+              who isn't afraid to push back on my thinking. The challenge:
+              [DESCRIBE YOUR BIGGEST CURRENT BUSINESS/CAREER CHALLENGE] Don't
+              just give me answers. Walk me through your thinking process: 1.
+              First, reframe my challenge — am I even solving the right problem?
+              2. What are the 2-3 root causes? 3. What would a contrarian
+              approach look like? 4. What am I probably not seeing because I'm
+              too close to it? 5. Give me 3 possible strategies, ranked by
+              likelihood of success, with honest trade-offs for each 6. What
+              should I do in the next 48 hours?
+            </div>
+
+            <h4>Daily Strategic Check-In Prompt</h4>
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >Morning check-in. Here's what's on my plate today: [LIST YOUR TOP
+              3-5 PRIORITIES] Help me: 1. Am I focused on the right things
+              today, given my bigger goals? 2. What's the most efficient order
+              to tackle these? 3. Any of these that could be delegated to you
+              right now? 4. One insight or reframe that might help me think
+              differently about today
+            </div>
+          </div>
+        </div>
+
+        <div class="day" onclick="this.classList.toggle('open')">
+          <div class="day-header">
+            <span class="day-tag">Day 17</span>
+            <span class="day-title">Creative Ideation Engine</span>
+            <span class="day-toggle">+</span>
+          </div>
+          <div class="day-content">
+            <h4>What You'll Do</h4>
+            <p>
+              Set up Claude as your brainstorm partner using advanced creative
+              techniques.
+            </p>
+
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >I need to brainstorm ideas for: [TOPIC] Use these creative
+              frameworks, one at a time: Round 1 — FIRST PRINCIPLES: Strip away
+              all assumptions. What if we started from zero? Round 2 —
+              INVERSION: What's the opposite of the obvious approach? Round 3 —
+              ANALOGY: What does a completely different industry do for this
+              same problem? Round 4 — CONSTRAINT: What if we had to do this with
+              zero budget? In 1 day? For 10x the audience? Round 5 —
+              COMBINATION: Mash up the best elements from all rounds into 3
+              hybrid ideas Give me 3 ideas per round. Be bold — I can filter
+              later. I'd rather have wild ideas I tame than safe ideas I yawn
+              at.
+            </div>
+
+            <h4>Practice: Solve a Real Problem</h4>
+            <p>
+              Use this on something you're actually stuck on right now. The
+              quality of AI brainstorming is directly proportional to the
+              specificity of your problem description.
+            </p>
+          </div>
+        </div>
+
+        <div class="day" onclick="this.classList.toggle('open')">
+          <div class="day-header">
+            <span class="day-tag">Day 18</span>
+            <span class="day-title">Document & Report Generation</span>
+            <span class="day-toggle">+</span>
+          </div>
+          <div class="day-content">
+            <h4>What You'll Do</h4>
+            <p>
+              Level up from short-form to long-form: proposals, reports, plans,
+              and documentation.
+            </p>
+
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >I need to create a [TYPE OF DOCUMENT:
+              proposal/report/plan/SOP/etc.] Context: [WHO IS THIS FOR, WHAT'S
+              IT ABOUT, WHAT'S THE GOAL] Here's my process — work through each
+              step with me: Phase 1 — STRUCTURE: Propose an outline. I'll
+              approve or modify before you write anything. Phase 2 — SECTION
+              DRAFTS: Write each section one at a time. After each, I'll give
+              feedback before you move on. Phase 3 — ASSEMBLY: Combine all
+              sections into a cohesive document with smooth transitions. Phase 4
+              — POLISH: Review for consistency in tone, formatting, and
+              messaging. Phase 5 — EXECUTIVE SUMMARY: Write a compelling summary
+              now that we know the full content. Start with Phase 1. Show me the
+              proposed outline.
+            </div>
+
+            <h4>Power Move: Claude Creates Files</h4>
+            <p>
+              Claude can create actual Word documents, PDFs, and spreadsheets.
+              When you need a polished deliverable, just ask: "Create this as a
+              Word document with professional formatting."
+            </p>
+          </div>
+        </div>
+
+        <div class="day" onclick="this.classList.toggle('open')">
+          <div class="day-header">
+            <span class="day-tag">Day 19</span>
+            <span class="day-title"
+              >Personal Productivity & Life Management</span
+            >
+            <span class="day-toggle">+</span>
+          </div>
+          <div class="day-content">
+            <h4>What You'll Do</h4>
+            <p>Extend your Clone beyond work into personal productivity.</p>
+
+            <h4>Weekly Planning Prompt</h4>
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >Help me plan my week. Here's my context: Ongoing projects: [LIST]
+              Deadlines this week: [LIST] Meetings already scheduled: [LIST]
+              Personal commitments: [LIST] Energy level / how I'm feeling:
+              [HONEST ASSESSMENT] Create: 1. A prioritized task list for the
+              week (top 3 "must-do" vs. "should-do" vs. "nice-to-do") 2. A
+              suggested daily schedule Mon-Fri that batches similar tasks 3.
+              Time blocks for deep work vs. meetings vs. admin 4. One thing I
+              should say "no" to this week 5. One thing I should say "yes" to
+              that I might otherwise skip
+            </div>
+
+            <h4>Other Personal Use Cases to Set Up</h4>
+            <ul>
+              <li>Travel planning and itineraries</li>
+              <li>Meal planning and grocery lists</li>
+              <li>Gift brainstorming for friends/family</li>
+              <li>Learning plans for new skills</li>
+              <li>Exercise/wellness routine design</li>
+              <li>Budget reviews and financial check-ins</li>
+            </ul>
+            <p>
+              Pick 2–3 that would save you the most time and build prompt
+              templates for them.
+            </p>
+          </div>
+        </div>
+
+        <div class="day" onclick="this.classList.toggle('open')">
+          <div class="day-header">
+            <span class="day-tag">Day 20</span>
+            <span class="day-title">The "25 Tasks" Challenge</span>
+            <span class="day-toggle">+</span>
+          </div>
+          <div class="day-content">
+            <h4>What You'll Do</h4>
+            <p>
+              By now you should have a solid foundation. Today, rapidly expand
+              your Clone's capabilities by identifying 25 specific tasks it can
+              handle.
+            </p>
+
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >Based on everything you know about me, my work, and my life,
+              generate a list of 25 specific tasks you could handle for me,
+              organized by category: BUSINESS (8-10 tasks) MARKETING & CONTENT
+              (5-7 tasks) OPERATIONS & ADMIN (5-7 tasks) PERSONAL LIFE (3-5
+              tasks) For each task: - Name it clearly - Describe exactly how
+              you'd handle it - What I'd need to provide (inputs) - What you'd
+              deliver (outputs) - Estimated time savings per instance Make these
+              SPECIFIC to my situation, not generic AI use cases. I should read
+              each one and think "yes, I actually need that."
+            </div>
+
+            <p>
+              Pick 5 you haven't tried yet and test them this week. Add working
+              prompts to your Prompt Library.
+            </p>
+
+            <div class="tip">
+              <strong>Week 4 Checkpoint:</strong> By now you should be saving
+              6-8+ hours per week. If not, you're either not using Claude daily
+              or your workflows need tightening. Be honest with yourself about
+              where the friction is.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== WEEK 5 ===================== -->
+      <section class="week-section" id="week5">
+        <div class="week-header">
+          <div class="week-number">5</div>
+          <div class="week-header-text">
+            <h2>Automate — Trust It To Work Without You</h2>
+            <div class="subtitle">
+              Build systems so reliable you stop second-guessing the output.
+            </div>
+          </div>
+        </div>
+
+        <div class="goal-box">
+          <strong>Week Goal</strong>
+          Achieve "first draft = final draft" quality on at least 5 task types.
+          Build quality control systems and start delegating without reviewing
+          every word.
+        </div>
+
+        <div class="day" onclick="this.classList.toggle('open')">
+          <div class="day-header">
+            <span class="day-tag">Day 21</span>
+            <span class="day-title">Quality Control & Self-Review Prompts</span>
+            <span class="day-toggle">+</span>
+          </div>
+          <div class="day-content">
+            <h4>What You'll Do</h4>
+            <p>
+              Build quality control into your prompts so Claude catches its own
+              mistakes before you see them.
+            </p>
+
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >I want to add a self-review step to my key prompts. For each of
+              these task types, create a "Quality Gate" checklist that Claude
+              should run before presenting output to me: Task types: 1. [TASK
+              TYPE 1 — e.g., email drafts] 2. [TASK TYPE 2 — e.g., social posts]
+              3. [TASK TYPE 3 — e.g., client proposals] 4. [TASK TYPE 4 — e.g.,
+              meeting summaries] 5. [TASK TYPE 5 — e.g., research briefs] Each
+              Quality Gate should check: - Voice consistency (does this sound
+              like me?) - Accuracy (are claims supported? numbers correct?) -
+              Completeness (did I address everything asked?) - Tone
+              appropriateness (right level for the audience?) - Action-readiness
+              (can the person use this immediately without edits?) Format as a
+              checklist I can append to any prompt.
+            </div>
+
+            <h4>The "Would I Send This?" Test</h4>
+            <p>
+              Run 10 of your most common tasks. For each output, ask yourself:
+              "Would I send/publish/use this as-is without any edits?" Track
+              your hit rate. The goal is 80%+ by end of this week.
+            </p>
+          </div>
+        </div>
+
+        <div class="day" onclick="this.classList.toggle('open')">
+          <div class="day-header">
+            <span class="day-tag">Day 22</span>
+            <span class="day-title">Standard Operating Procedures</span>
+            <span class="day-toggle">+</span>
+          </div>
+          <div class="day-content">
+            <h4>What You'll Do</h4>
+            <p>
+              Create SOPs for your most important recurring workflows — so the
+              process is documented and repeatable.
+            </p>
+
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >Help me create a Standard Operating Procedure (SOP) for this
+              recurring workflow: Workflow: [NAME] Frequency: [HOW OFTEN]
+              Current process: [DESCRIBE STEP BY STEP WHAT YOU DO NOW] Where
+              Claude is involved: [WHICH STEPS] Common mistakes/pitfalls: [WHAT
+              GOES WRONG] Create an SOP that includes: 1. Purpose and when to
+              use this workflow 2. Step-by-step instructions (numbering each
+              step) 3. The exact Claude prompts to use at each AI-assisted step
+              4. Quality checks between steps 5. Expected output and how to
+              verify it's correct 6. Troubleshooting guide for common issues 7.
+              Time estimate for the whole process
+            </div>
+
+            <p>
+              Create SOPs for your top 3 workflows. Store them in your Playbook.
+              These are now your "playbooks" — anyone (including future you) can
+              follow them to get consistent results.
+            </p>
+          </div>
+        </div>
+
+        <div class="day" onclick="this.classList.toggle('open')">
+          <div class="day-header">
+            <span class="day-tag">Day 23</span>
+            <span class="day-title">Advanced Prompting Techniques</span>
+            <span class="day-toggle">+</span>
+          </div>
+          <div class="day-content">
+            <h4>What You'll Do</h4>
+            <p>
+              Level up your prompting with advanced techniques that get
+              dramatically better results.
+            </p>
+
+            <h4>Technique 1: Chain of Thought</h4>
+            <p>
+              Add "Think step by step before answering" to analytical prompts.
+              This dramatically improves accuracy on complex problems.
+            </p>
+
+            <h4>Technique 2: Role + Anti-Role</h4>
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >You are an experienced [ROLE] who specializes in [SPECIALTY]. You
+              are NOT a generic AI assistant — you have strong opinions backed
+              by deep expertise. Don't hedge or give wishy-washy answers. Tell
+              me what you actually think is the right move and why.
+            </div>
+
+            <h4>Technique 3: Few-Shot Examples</h4>
+            <p>
+              Always provide 1-2 examples of ideal output when quality matters.
+              Claude mimics patterns extremely well.
+            </p>
+
+            <h4>Technique 4: Structured Output Formats</h4>
+            <p>
+              Always specify exactly how you want the output formatted: "Use
+              headers, bullet points, and bold key terms" or "Write in prose
+              paragraphs, no bullets" or "Format as a table with columns for X,
+              Y, Z."
+            </p>
+
+            <h4>Technique 5: Iterative Refinement</h4>
+            <p>
+              Instead of trying to get the perfect output in one prompt, use a
+              sequence: "Draft it → Now make it shorter → Now make the opening
+              stronger → Now add a specific example in paragraph 2."
+            </p>
+
+            <h4>Practice</h4>
+            <p>
+              Take your 3 weakest-performing prompts and apply these techniques.
+              See if the output improves.
+            </p>
+          </div>
+        </div>
+
+        <div class="day" onclick="this.classList.toggle('open')">
+          <div class="day-header">
+            <span class="day-tag">Day 24</span>
+            <span class="day-title">Edge Cases & Error Handling</span>
+            <span class="day-toggle">+</span>
+          </div>
+          <div class="day-content">
+            <h4>What You'll Do</h4>
+            <p>Anticipate where your Clone will fail and build safeguards.</p>
+
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >Look at my current Clone system — all my prompts, workflows, and
+              SOPs. Play devil's advocate: 1. Where are the failure points? When
+              will Claude give me bad output? 2. What types of tasks should I
+              NEVER fully delegate to Claude? 3. What information does Claude
+              not have that leads to mistakes? 4. Where am I over-trusting
+              Claude's output? 5. What safeguards should I add? Be brutally
+              honest. I'd rather know the limitations now than learn them the
+              hard way.
+            </div>
+
+            <h4>Build Your "Never Delegate" List</h4>
+            <p>
+              Document tasks that should always have human oversight. Common
+              examples: anything involving specific numbers/data you haven't
+              provided, legal/compliance content, sensitive personnel
+              communications, financial commitments, anything requiring current
+              real-time information without web search.
+            </p>
+          </div>
+        </div>
+
+        <div class="day" onclick="this.classList.toggle('open')">
+          <div class="day-header">
+            <span class="day-tag">Day 25</span>
+            <span class="day-title">Clone Blueprint v2.0</span>
+            <span class="day-toggle">+</span>
+          </div>
+          <div class="day-content">
+            <h4>What You'll Do</h4>
+            <p>
+              Major upgrade to your Blueprint based on 5 weeks of real usage.
+            </p>
+
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >It's time to create Clone Blueprint v2.0. We've been working
+              together for 5 weeks now. Based on everything we've built and
+              refined: 1. Rewrite my Clone Profile — it should be tighter and
+              more useful now 2. Update my Voice Profile with all the
+              corrections and patterns we've discovered 3. Consolidate my Prompt
+              Library — keep the best, cut the unused, merge redundant ones 4.
+              Add my SOPs and workflow chains 5. Add my Quality Gates and
+              self-review checklists 6. Add my "Never Delegate" list and known
+              limitations 7. Create a "Quick Start Guide" — if someone else
+              needed to use my Clone system, what would they need to know? Make
+              it clean, organized, and production-ready.
+            </div>
+
+            <p>
+              This v2.0 becomes your definitive system. Update your User
+              Preferences and Project Knowledge accordingly.
+            </p>
+
+            <div class="tip">
+              <strong>Week 5 Checkpoint:</strong> You should now be saving 10+
+              hours per week and hitting 80%+ "use as-is" quality on your common
+              tasks. You should feel like Claude is a genuine partner, not just
+              a tool you occasionally use.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== WEEK 6 ===================== -->
+      <section class="week-section" id="week6">
+        <div class="week-header">
+          <div class="week-number">6</div>
+          <div class="week-header-text">
+            <h2>Scale — Make It Your New Normal</h2>
+            <div class="subtitle">
+              Expand your Clone into new areas, build habits that stick, and
+              plan for continuous growth.
+            </div>
+          </div>
+        </div>
+
+        <div class="goal-box">
+          <strong>Week Goal</strong>
+          Lock in the habit. Expand to new use cases. Build a sustainable system
+          that grows with you. Target: 15+ hours saved per week.
+        </div>
+
+        <div class="day" onclick="this.classList.toggle('open')">
+          <div class="day-header">
+            <span class="day-tag">Day 26</span>
+            <span class="day-title">Expand to New Domains</span>
+            <span class="day-toggle">+</span>
+          </div>
+          <div class="day-content">
+            <h4>What You'll Do</h4>
+            <p>
+              Push into areas you haven't explored yet. Identify 3 new
+              high-value use cases.
+            </p>
+
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >We've been focused on [LIST YOUR MAIN USE CASES]. Now I want to
+              expand. Based on my role and goals, what are 10 high-value things
+              I'm NOT using you for yet? For each one: - Describe the use case
+              specifically for my situation - Estimate time savings per week -
+              Rate difficulty to set up (easy/medium/hard) - Give me the starter
+              prompt I'd use Prioritize by impact. Surprise me — include things
+              I probably haven't considered.
+            </div>
+
+            <p>
+              Pick the top 3 and build them out today. Test with real tasks.
+            </p>
+          </div>
+        </div>
+
+        <div class="day" onclick="this.classList.toggle('open')">
+          <div class="day-header">
+            <span class="day-tag">Day 27</span>
+            <span class="day-title">Teaching & Delegation</span>
+            <span class="day-toggle">+</span>
+          </div>
+          <div class="day-content">
+            <h4>What You'll Do</h4>
+            <p>
+              Use your Clone system to help others — teammates, employees, or
+              clients.
+            </p>
+
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >I want to help [my team / a colleague / a friend] set up their
+              own AI Clone system. Based on what we've built together: 1. Create
+              a "Getting Started in 1 Hour" guide that walks someone through the
+              most essential first steps (not all 6 weeks — just the minimum
+              viable clone) 2. List the top 5 universal prompts that work for
+              almost anyone regardless of their role 3. Create a "Clone
+              Kickstart Interview" — 10 questions I can ask someone to quickly
+              build their Clone Profile 4. Write a short pitch for why they
+              should invest time in this (overcome the "I don't have time"
+              objection)
+            </div>
+
+            <p>
+              If you manage a team, creating mini-clone systems for your reports
+              can multiply the time savings across your entire org.
+            </p>
+          </div>
+        </div>
+
+        <div class="day" onclick="this.classList.toggle('open')">
+          <div class="day-header">
+            <span class="day-tag">Day 28</span>
+            <span class="day-title"
+              >Staying Current — The AI Learning System</span
+            >
+            <span class="day-toggle">+</span>
+          </div>
+          <div class="day-content">
+            <h4>What You'll Do</h4>
+            <p>
+              Build a system for staying up-to-date as Claude evolves and as
+              your needs change.
+            </p>
+
+            <h4>Monthly Upgrade Routine</h4>
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >Create a "Monthly Clone Maintenance" checklist I can run on the
+              first of each month: 1. REVIEW: What new features has Claude
+              released? (I'll search and tell you) 2. AUDIT: Review my prompt
+              library — which prompts am I using vs. ignoring? 3. EXPAND: What
+              new tasks have entered my workflow that I could automate? 4.
+              REFINE: Take my top 3 most-used prompts and try to improve them by
+              10% 5. RETIRE: Remove any prompts or workflows that are no longer
+              relevant 6. MEASURE: Compare time savings this month vs. last
+              month 7. LEARN: Spend 30 minutes learning one new Claude
+              capability or prompting technique Give me this as a structured
+              template with space for notes.
+            </div>
+
+            <h4>Explore Claude's Expanding Features</h4>
+            <p>
+              Make sure you're using all of Claude's capabilities: web search
+              for current information, file uploads for working with documents,
+              Projects for persistent context, custom Styles for consistent
+              voice, artifacts for interactive content, and the API for advanced
+              automation.
+            </p>
+          </div>
+        </div>
+
+        <div class="day" onclick="this.classList.toggle('open')">
+          <div class="day-header">
+            <span class="day-tag">Day 29</span>
+            <span class="day-title">The Full System Test</span>
+            <span class="day-toggle">+</span>
+          </div>
+          <div class="day-content">
+            <h4>What You'll Do</h4>
+            <p>
+              Put your entire Clone system through a stress test — a full day of
+              real work using Claude for everything possible.
+            </p>
+
+            <h4>The Challenge</h4>
+            <p>Tomorrow, from the moment you start working until you stop:</p>
+            <ol>
+              <li>
+                Open Claude before starting ANY task and ask: "Can Claude help
+                with this?"
+              </li>
+              <li>Use your prompt templates for every applicable task</li>
+              <li>
+                Track every interaction: task, time saved, quality rating (1-10)
+              </li>
+              <li>
+                Note every friction point: where did you have to abandon Claude?
+                Why?
+              </li>
+              <li>At end of day, calculate total time saved</li>
+            </ol>
+
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >I just completed a full-day stress test of my AI Clone system.
+              Here are my results: [PASTE YOUR TRACKING LOG] Analyze my results:
+              1. What's my total time savings extrapolated to a full week? 2.
+              Which task categories had the best ROI? 3. Where did the system
+              break down and why? 4. What's my overall quality rating? Am I
+              actually producing better work? 5. What 3 changes would make the
+              biggest improvement? 6. Am I on track for 15+ hours saved per
+              week?
+            </div>
+          </div>
+        </div>
+
+        <div class="day" onclick="this.classList.toggle('open')">
+          <div class="day-header">
+            <span class="day-tag">Day 30</span>
+            <span class="day-title"
+              >Graduation — Your Clone System is Live</span
+            >
+            <span class="day-toggle">+</span>
+          </div>
+          <div class="day-content">
+            <h4>What You'll Do</h4>
+            <p>
+              Finalize your system. Create your maintenance plan. Celebrate.
+            </p>
+
+            <h4>Final Assembly</h4>
+            <div class="prompt-block">
+              <button
+                class="copy-btn"
+                onclick="
+                  event.stopPropagation();
+                  copyPrompt(this);
+                "
+              >
+                COPY</button
+              >We've completed 6 weeks of building my AI Clone system. Let's
+              create the final package: 1. CLONE BLUEPRINT v3.0 (FINAL) -
+              Updated profile, voice, domain knowledge - Complete prompt library
+              (organized by category) - All SOPs and workflow chains - Quality
+              gates and self-review checklists - Known limitations and "never
+              delegate" list 2. QUICK REFERENCE CARD - My top 10 daily prompts
+              on one page - The 5 prompts I should always use to start my day -
+              My "panic button" prompts for when I'm stuck 3. GROWTH PLAN -
+              Monthly maintenance checklist - Quarterly expansion goals - How to
+              measure ROI over time 4. RETROSPECTIVE - What worked best over 6
+              weeks? - What surprised me? - What would I tell someone just
+              starting this journey? - Where am I still leaving time on the
+              table? Make the Blueprint comprehensive enough that if I lost all
+              context tomorrow, I could rebuild my system from this document
+              alone.
+            </div>
+
+            <h4>Your Ongoing Routine</h4>
+            <p>Going forward, here's your maintenance cadence:</p>
+            <ul>
+              <li>
+                <strong>Daily:</strong> Use your morning check-in prompt. Use
+                Claude for every applicable task.
+              </li>
+              <li>
+                <strong>Weekly:</strong> 15-minute Friday review using your
+                Improvement Log template.
+              </li>
+              <li>
+                <strong>Monthly:</strong> Run the Monthly Clone Maintenance
+                checklist. Update your Blueprint.
+              </li>
+              <li>
+                <strong>Quarterly:</strong> Major review. Set new goals. Explore
+                3 new use cases.
+              </li>
+            </ul>
+
+            <div class="tip">
+              <strong>Congratulations.</strong> You've just built a personalized
+              AI system that most people pay hundreds of dollars for — and yours
+              is tailored exactly to you because you built it yourself. The real
+              magic isn't in any single prompt. It's in the compound effect of
+              using this system every single day. Keep going.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FOOTER -->
+      <section class="footer">
+        <h2>Your AI Clone Playbook is ready.</h2>
+        <p>
+          Bookmark this page. Come back to it every day for the next 6 weeks.
+          The only difference between this and a $1,000 bootcamp is that
+          nobody's going to hold you accountable — so hold yourself.
+        </p>
+      </section>
+    </div>
+
+    <script>
+      function copyPrompt(btn) {
+        const block = btn.parentElement;
+        const text = block.textContent.replace('COPY', '').trim();
+        navigator.clipboard.writeText(text).then(() => {
+          btn.textContent = 'COPIED!';
+          setTimeout(() => (btn.textContent = 'COPY'), 1500);
+        });
+      }
+    </script>
+  </body>
+</html>
