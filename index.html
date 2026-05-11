@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Build Your AI Clone — 6-Week Workshop with Claude Desktop</title>
+    <title>Build Your AI Clone — 6-Week Workshop</title>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap');
 
@@ -170,6 +170,150 @@
         margin-bottom: 14px;
       }
 
+      .tool-choice {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-top: 28px;
+        padding: 12px 14px;
+        background: rgba(18, 18, 26, 0.58);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+      }
+      .tool-choice h3 {
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--accent);
+        margin-bottom: 2px;
+      }
+      .tool-choice p {
+        color: var(--text-dim);
+        font-size: 0.85rem;
+        line-height: 1.45;
+        margin-bottom: 0;
+      }
+      .tool-toggle {
+        display: inline-grid;
+        flex-shrink: 0;
+        grid-template-columns: repeat(2, minmax(82px, 1fr));
+        gap: 3px;
+        padding: 3px;
+        background: rgba(26, 26, 38, 0.72);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+      }
+      .tool-toggle button {
+        border: 0;
+        border-radius: 6px;
+        background: transparent;
+        color: var(--text-dim);
+        cursor: pointer;
+        font: inherit;
+        font-size: 0.82rem;
+        font-weight: 600;
+        padding: 7px 12px;
+        transition:
+          background 0.2s,
+          color 0.2s;
+      }
+      .tool-toggle button[aria-pressed='true'] {
+        background: linear-gradient(135deg, var(--accent2), var(--accent));
+        color: #0a0a0f;
+      }
+      .tool-toggle button:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+      }
+
+      body.modal-open {
+        overflow: hidden;
+      }
+      .onboarding-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        background: rgba(10, 10, 15, 0.86);
+        backdrop-filter: blur(18px);
+      }
+      .onboarding-modal[hidden] {
+        display: none;
+      }
+      .onboarding-card {
+        width: min(620px, 100%);
+        max-height: min(760px, calc(100vh - 48px));
+        overflow: auto;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        box-shadow: 0 30px 90px rgba(0, 0, 0, 0.44);
+        padding: 34px;
+      }
+      .onboarding-card h2 {
+        font-family: 'DM Serif Display', serif;
+        font-size: clamp(1.9rem, 4vw, 2.8rem);
+        line-height: 1.12;
+        margin-bottom: 14px;
+      }
+      .onboarding-card p {
+        color: var(--text-dim);
+        margin-bottom: 14px;
+      }
+      .onboarding-card h3 {
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 1.6px;
+        color: var(--accent);
+        margin: 26px 0 12px;
+      }
+      .onboarding-actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+      .onboarding-actions button {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: var(--surface2);
+        color: var(--text);
+        cursor: pointer;
+        font: inherit;
+        padding: 18px;
+        text-align: left;
+        transition:
+          border-color 0.2s,
+          transform 0.2s,
+          background 0.2s;
+      }
+      .onboarding-actions button:hover,
+      .onboarding-actions button:focus-visible {
+        border-color: var(--accent2);
+        background: rgba(123, 97, 255, 0.16);
+        outline: none;
+        transform: translateY(-1px);
+      }
+      .onboarding-actions strong {
+        display: block;
+        color: var(--accent);
+        font-size: 1.05rem;
+        margin-bottom: 4px;
+      }
+      .onboarding-actions span {
+        display: block;
+        color: var(--text-dim);
+        font-size: 0.88rem;
+        line-height: 1.45;
+      }
+      .onboarding-note {
+        margin-top: 18px;
+        color: var(--text-dim);
+        font-size: 0.88rem;
+      }
+
       .prereqs {
         background: var(--surface);
         border: 1px solid var(--border);
@@ -221,6 +365,9 @@
       .desktop-guide > p {
         color: var(--text-dim);
         margin-bottom: 20px;
+      }
+      .tool-panel[hidden] {
+        display: none;
       }
       .setup-grid {
         display: grid;
@@ -545,6 +692,21 @@
         .desktop-guide {
           padding: 22px 20px;
         }
+        .tool-choice {
+          align-items: flex-start;
+          flex-direction: column;
+          padding: 20px;
+        }
+        .tool-toggle {
+          display: grid;
+          width: 100%;
+        }
+        .onboarding-card {
+          padding: 24px 20px;
+        }
+        .onboarding-actions {
+          grid-template-columns: 1fr;
+        }
         .setup-grid {
           grid-template-columns: 1fr;
         }
@@ -562,14 +724,61 @@
     </style>
   </head>
   <body>
+    <div
+      class="onboarding-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="onboarding-title"
+      aria-describedby="onboarding-description"
+      data-onboarding-modal
+    >
+      <div class="onboarding-card">
+        <h2 id="onboarding-title">Build your AI Clone in the tool you use.</h2>
+        <p id="onboarding-description">
+          This workshop walks you through 30 short sessions to create a personal
+          AI system: your profile, voice, prompt library, workflows, and quality
+          checks. First, choose the AI workspace you want the instructions to use.
+        </p>
+        <p>
+          The full curriculum is the same either way. The setup steps, feature
+          notes, and lesson wording will adapt to your choice.
+        </p>
+
+        <h3>Choose your workshop tool</h3>
+        <div class="onboarding-actions">
+          <button type="button" data-onboarding-tool="chatgpt">
+            <strong>ChatGPT</strong>
+            <span>
+              Use ChatGPT Desktop, Projects, personalization, memory, files, and
+              connected apps where available.
+            </span>
+          </button>
+          <button type="button" data-onboarding-tool="claude">
+            <strong>Claude</strong>
+            <span>
+              Use Claude Desktop, Projects, instructions, styles, connectors,
+              and local extensions where available.
+            </span>
+          </button>
+        </div>
+        <div class="onboarding-note">
+          Your choice is saved in this browser. You can change it later in Tool
+          Setup.
+        </div>
+      </div>
+    </div>
+
     <!-- HERO -->
     <section class="hero">
-      <div class="hero-badge">Free · Self-Guided · Claude Desktop</div>
+      <div class="hero-badge">
+        Free · Self-Guided · <span data-tool-label="workspace">AI Workspace</span>
+      </div>
       <h1>Build Your AI Clone System in 6 Weeks</h1>
       <p>
         A detailed, step-by-step workshop to create a personal AI partner that
         knows your voice, handles your busywork, and grows with you — using
-        Claude Desktop as your daily workspace.
+        <span data-tool-label="workspace">your AI workspace</span> as your daily
+        workspace.
       </p>
       <div class="hero-stats">
         <div class="hero-stat"><strong>6</strong><span>Weeks</span></div>
@@ -585,7 +794,7 @@
     <nav class="week-nav">
       <div class="week-nav-inner">
         <a href="#setup">Setup</a>
-        <a href="#claude-desktop">Desktop</a>
+        <a href="#tool-setup">Tool Setup</a>
         <a href="#week1">Wk 1 · Clone Builder</a>
         <a href="#week2">Wk 2 · Activate</a>
         <a href="#week3">Wk 3 · Your Voice</a>
@@ -602,22 +811,42 @@
         <p>
           This workshop is designed so you do one session per weekday (5 per
           week) for 6 weeks. Each session takes 30–60 minutes. By the end,
-          you'll have a fully personalized AI system built inside Claude
-          Desktop that handles real work.
+          you'll have a fully personalized AI system built inside
+          <span data-tool-label="workspace">your AI workspace</span> that
+          handles real work.
         </p>
         <p>
           You don't need any coding experience. You don't need any prior AI
-          experience. You just need Claude Desktop and the willingness to
-          actually do the exercises — not just read them.
+          experience. You just need
+          <span data-tool-label="workspace">your AI workspace</span> and the
+          willingness to actually do the exercises — not just read them.
         </p>
+
+        <div class="tool-choice" id="tool-setup">
+          <div>
+            <h3>Current Tool</h3>
+            <p>
+              Using <span data-tool-label="name">ChatGPT</span>. Change this if
+              you switch workspaces.
+            </p>
+          </div>
+          <div class="tool-toggle" role="group" aria-label="Workshop tool">
+            <button type="button" data-tool-select="chatgpt" aria-pressed="true">
+              ChatGPT
+            </button>
+            <button type="button" data-tool-select="claude" aria-pressed="false">
+              Claude
+            </button>
+          </div>
+        </div>
 
         <div class="prereqs">
           <h3>What You Need</h3>
           <ul>
             <li>
-              The latest Claude Desktop installed and signed in (free tier
-              works; paid plans unlock higher usage, Cowork, and advanced
-              workflows)
+              <span data-tool-label="prereq"
+                >The latest ChatGPT Desktop app installed and signed in</span
+              >
             </li>
             <li>
               A notes app or Google Doc for your "AI Clone Playbook" — a living
@@ -634,7 +863,293 @@
           </ul>
         </div>
 
-        <div class="desktop-guide" id="claude-desktop">
+        <div
+          class="desktop-guide tool-panel"
+          id="chatgpt-desktop"
+          data-tool-panel="chatgpt"
+          data-fixed-tool-copy
+        >
+          <h3>ChatGPT Desktop Setup Instructions</h3>
+          <p>
+            Use the current ChatGPT Desktop app, or chatgpt.com if your device
+            cannot run the app. ChatGPT Projects give the workshop a stable home
+            for your Playbook, instructions, files, and repeated workflows.
+            Start each day in the same Project so ChatGPT can stay anchored to
+            your examples and goals.
+          </p>
+
+          <div class="setup-grid">
+            <div class="setup-card">
+              <h4>1. Install and Sign In</h4>
+              <ol>
+                <li>
+                  Go to the official
+                  <a
+                    href="https://chatgpt.com/download/"
+                    target="_blank"
+                    rel="noopener"
+                    >ChatGPT download page</a
+                  >
+                  or
+                  <a
+                    href="https://chatgpt.com/features/desktop/"
+                    target="_blank"
+                    rel="noopener"
+                    >ChatGPT Desktop page</a
+                  >. Do not use an old installer or a third-party download site.
+                </li>
+                <li>
+                  On Mac, use macOS 14 or newer with Apple Silicon (M1 or
+                  better). On Windows, use Windows 10 x64 or arm64 version
+                  17763.0 or newer from the Microsoft Store.
+                </li>
+                <li>
+                  Open ChatGPT from Applications on Mac or the Start menu on
+                  Windows, then sign in with your ChatGPT account.
+                </li>
+                <li>
+                  Before Day 1, check for app updates or reinstall from the
+                  official download page, then quit and reopen ChatGPT.
+                </li>
+              </ol>
+            </div>
+
+            <div class="setup-card">
+              <h4>2. Learn the Desktop Shortcut</h4>
+              <ol>
+                <li>
+                  On macOS, press <strong>Option + Space</strong> to open the
+                  ChatGPT chat bar from your desktop.
+                </li>
+                <li>
+                  On Windows, press <strong>Alt + Space</strong> while the app
+                  is open to use the companion window.
+                </li>
+                <li>
+                  Use the shortcut during the workshop whenever you catch
+                  yourself starting a task outside your AI Clone system.
+                </li>
+              </ol>
+            </div>
+
+            <div class="setup-card">
+              <h4>3. Create Your Workshop Home</h4>
+              <ol>
+                <li>
+                  Create one document named <strong>AI Clone Playbook</strong>
+                  in Google Docs, Notion, Word, Obsidian, or your notes app.
+                </li>
+                <li>
+                  Add these headings now: <code>Clone Profile</code>,
+                  <code>Voice Profile</code>, <code>Prompt Library</code>,
+                  <code>Workflows</code>, <code>Quality Gates</code>, and
+                  <code>Maintenance Log</code>.
+                </li>
+                <li>
+                  Create a folder named <strong>AI Clone Workshop</strong> for
+                  writing samples, screenshots, PDFs, spreadsheets, and files
+                  you want ChatGPT to analyze.
+                </li>
+              </ol>
+            </div>
+
+            <div class="setup-card">
+              <h4>4. Make a Project</h4>
+              <ol>
+                <li>
+                  In ChatGPT, click <strong>New project</strong> in the sidebar
+                  and name it <strong>AI Clone Workshop</strong>.
+                </li>
+                <li>
+                  Open the Project menu, choose
+                  <strong>Project settings</strong>, and add this instruction:
+                  <br /><code
+                    >This project contains my personal AI Clone workshop. Use my
+                    Playbook, writing samples, prompt library, and feedback logs
+                    as the source of truth.</code
+                  >
+                </li>
+                <li>
+                  Upload your Playbook and updated samples as you create them.
+                  Project file limits vary by plan, so keep the best source
+                  materials if you run into limits.
+                </li>
+              </ol>
+            </div>
+
+            <div class="setup-card">
+              <h4>5. Set Personalization</h4>
+              <ol>
+                <li>
+                  Open <strong>Settings &gt; Personalization</strong> and add a
+                  short starter instruction:
+                  <br /><code
+                    >Help me build and maintain my AI Clone system. Ask for
+                    missing context, preserve my voice, and turn repeated work
+                    into reusable prompts and workflows.</code
+                  >
+                </li>
+                <li>
+                  Replace this starter instruction with your full Clone
+                  Blueprint at the end of Week 1.
+                </li>
+                <li>
+                  Remember that Project instructions apply only inside that
+                  Project and can override your global custom instructions.
+                </li>
+              </ol>
+            </div>
+
+            <div class="setup-card">
+              <h4>6. Use Memory Intentionally</h4>
+              <ol>
+                <li>
+                  Keep the workshop inside your Project so chats, files, and
+                  instructions stay together.
+                </li>
+                <li>
+                  If memory is enabled for your account, review memory sources
+                  when they appear and correct, delete, or mark stale context as
+                  not relevant.
+                </li>
+                <li>
+                  For sensitive or compliance-bound work, do not rely on memory
+                  as the source of truth. Use your Playbook and approved files.
+                </li>
+              </ol>
+            </div>
+
+            <div class="setup-card">
+              <h4>7. Optional: Connect Apps</h4>
+              <ol>
+                <li>
+                  Use connected apps only when they help the workshop, such as
+                  Google Drive for source files or Gmail for examples you are
+                  allowed to share.
+                </li>
+                <li>
+                  Connect only services you trust, review permission prompts,
+                  and disconnect apps when you no longer need them.
+                </li>
+                <li>
+                  In Projects, app links and connected app access may behave
+                  differently by plan and workspace settings, so verify the
+                  source before treating output as final.
+                </li>
+              </ol>
+            </div>
+
+            <div class="setup-card">
+              <h4>8. Know What's New</h4>
+              <ul>
+                <li>
+                  <strong>Projects:</strong> Available to free and paid users,
+                  with plan-specific file limits and sharing options.
+                </li>
+                <li>
+                  <strong>Desktop app:</strong> Use the official app for quick
+                  access, screenshots, uploads, web search, and desktop
+                  workflows where available.
+                </li>
+                <li>
+                  <strong>Voice:</strong> Availability depends on platform and
+                  plan. Do not assume macOS Desktop voice is available.
+                </li>
+                <li>
+                  <strong>Memory sources:</strong> ChatGPT may show which
+                  memories, past chats, custom instructions, files, or connected
+                  app content shaped a response.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="desktop-note">
+            Keep sensitive data out of ChatGPT unless you are allowed to share
+            it and you understand your plan, workspace, app, memory, and data
+            controls. For this workshop, plain prompts, uploaded writing
+            samples, and your Playbook are enough to complete the core system.
+          </div>
+
+          <div class="session-routine">
+            <h4>Run Each Workshop Session This Way</h4>
+            <ol>
+              <li>
+                Open ChatGPT Desktop or chatgpt.com, then open your
+                <strong>AI Clone Workshop</strong> Project.
+              </li>
+              <li>
+                Open your <strong>AI Clone Playbook</strong> beside it so you
+                can paste in new outputs as soon as they are useful.
+              </li>
+              <li>
+                Expand the day below, copy the prompt, replace every
+                <code>[BRACKETED PLACEHOLDER]</code> with real context, and run
+                it on a real task.
+              </li>
+              <li>
+                Save only the reusable pieces: profiles, prompt templates,
+                workflows, quality rules, time-savings notes, and corrections
+                ChatGPT should keep using.
+              </li>
+            </ol>
+          </div>
+
+          <div class="source-list">
+            Updated for ChatGPT Desktop on May 11, 2026 using OpenAI's current
+            pages for
+            <a
+              href="https://chatgpt.com/features/desktop/"
+              target="_blank"
+              rel="noopener"
+              >Desktop</a
+            >,
+            <a
+              href="https://chatgpt.com/download/"
+              target="_blank"
+              rel="noopener"
+              >downloads</a
+            >,
+            <a
+              href="https://help.openai.com/en/articles/9275200-using-the-chatgpt-macos-app"
+              target="_blank"
+              rel="noopener"
+              >macOS app</a
+            >,
+            <a
+              href="https://help.openai.com/en/articles/9982051-using-the-chatgpt-windows-app"
+              target="_blank"
+              rel="noopener"
+              >Windows app</a
+            >,
+            <a
+              href="https://help.openai.com/en/articles/10169521-using-projects-in-chatgpt"
+              target="_blank"
+              rel="noopener"
+              >Projects</a
+            >,
+            <a
+              href="https://help.openai.com/en/articles/9703738-desktop-app-release-notes"
+              target="_blank"
+              rel="noopener"
+              >macOS release notes</a
+            >, and
+            <a
+              href="https://help.openai.com/en/articles/6825453-chatgpt-release-notes"
+              target="_blank"
+              rel="noopener"
+              >ChatGPT release notes</a
+            >.
+          </div>
+        </div>
+
+        <div
+          class="desktop-guide tool-panel"
+          id="claude-desktop"
+          data-tool-panel="claude"
+          data-fixed-tool-copy
+          hidden
+        >
           <h3>Claude Desktop Setup Instructions</h3>
           <p>
             Use Claude Desktop for the workshop. It gives you a stable place to
@@ -931,7 +1446,7 @@
         <div class="goal-box">
           <strong>Week Goal</strong>
           By Friday, you'll have a comprehensive "Clone Blueprint" — a master
-          document that turns Claude into a personalized partner that knows your
+          document that turns ChatGPT into a personalized partner that knows your
           context, goals, and preferences.
         </div>
 
@@ -946,7 +1461,7 @@
             <h4>What You'll Do</h4>
             <p>
               Today is about getting important context out of your head and into
-              a format Claude can use. You'll create the personal context
+              a format ChatGPT can use. You'll create the personal context
               document that powers the rest of the workshop.
             </p>
 
@@ -980,9 +1495,9 @@
               </li>
             </ol>
 
-            <h4>Step 2 — Feed It to Claude (15 min)</h4>
+            <h4>Step 2 — Feed It to ChatGPT (15 min)</h4>
             <p>
-              Now take everything you wrote and paste it into Claude Desktop
+              Now take everything you wrote and paste it into ChatGPT Desktop
               with this prompt:
             </p>
 
@@ -1006,17 +1521,16 @@
 
             <h4>Step 3 — Refine the Profile (15 min)</h4>
             <p>
-              Answer Claude's follow-up questions. Then ask Claude to produce a
+              Answer ChatGPT's follow-up questions. Then ask ChatGPT to produce a
               final "Clone Profile v1" that combines everything. Save this to
               your Playbook — it is the foundation for every later session.
             </p>
 
             <div class="tip">
-              <strong>Pro tip:</strong> Set this Clone Profile as your Claude
-              Desktop account instruction: click your initials in the
-              lower-left corner, open Settings, and paste the profile under
-              "Instructions for Claude." That way every new conversation starts
-              with your context already loaded.
+              <strong>Pro tip:</strong> Add this Clone Profile to your selected
+              tool's personal or custom instructions using the setup guide
+              above. That way new conversations start with your context already
+              loaded.
             </div>
           </div>
         </div>
@@ -1033,7 +1547,7 @@
             <p>
               You can't reclaim time you haven't measured. Today you'll audit
               your recurring tasks and sort them by how ready they are for
-              Claude's help.
+              ChatGPT's help.
             </p>
 
             <h4>Step 1 — Task Inventory (20 min)</h4>
@@ -1051,19 +1565,19 @@
               Profile, list every recurring task you think I do weekly
               (professional and personal). Make educated guesses — I'll correct
               you. 2. For each task, estimate the time per week. 3. Categorize
-              each task into one of 4 buckets: - 🟢 AUTOMATE NOW: Claude can do
-              80%+ of this right away - 🟡 ACCELERATE: Claude can cut the time
-              in half with the right setup - 🟠 AUGMENT: Claude can help but I
+              each task into one of 4 buckets: - 🟢 AUTOMATE NOW: ChatGPT can do
+              80%+ of this right away - 🟡 ACCELERATE: ChatGPT can cut the time
+              in half with the right setup - 🟠 AUGMENT: ChatGPT can help but I
               still drive - 🔴 HUMAN ONLY: Requires my physical presence or
               deeply personal judgment Format this as a table with columns: Task
-              | Time/Week | Category | How Claude Helps
+              | Time/Week | Category | How ChatGPT Helps
             </div>
 
             <h4>Step 2 — Correct and Complete (15 min)</h4>
             <p>
-              Review Claude's list. Add tasks it missed. Correct time estimates.
+              Review ChatGPT's list. Add tasks it missed. Correct time estimates.
               Push back where you disagree on categories — this conversation
-              will teach Claude how you think about your work.
+              will teach ChatGPT how you think about your work.
             </p>
 
             <h4>Step 3 — Build Your Priority Queue (10 min)</h4>
@@ -1077,7 +1591,7 @@
               >
                 COPY</button
               >Now sort all the 🟢 and 🟡 tasks by this formula: (time saved per
-              week) × (ease of setup with Claude). Give me a ranked priority
+              week) × (ease of setup with ChatGPT). Give me a ranked priority
               list of the top 10 tasks to automate/accelerate first, with a
               one-line description of how we'll set each one up.
             </div>
@@ -1099,7 +1613,7 @@
             <h4>What You'll Do</h4>
             <p>
               The difference between a useful AI and one that feels "off" is
-              voice. Today you teach Claude exactly how you communicate.
+              voice. Today you teach ChatGPT exactly how you communicate.
             </p>
 
             <h4>Step 1 — Collect Writing Samples (15 min)</h4>
@@ -1135,7 +1649,7 @@
               and close messages - My personality that comes through (humor?
               directness? warmth?) - Any quirks or patterns Here are my writing
               samples: [PASTE YOUR SAMPLES] After analyzing, create a "Voice
-              Profile" document I can paste into future prompts so Claude writes
+              Profile" document I can paste into future prompts so ChatGPT writes
               like me.
             </div>
 
@@ -1156,19 +1670,17 @@
             </div>
 
             <p>
-              Compare Claude's draft to how you'd actually write it. Give it
+              Compare ChatGPT's draft to how you'd actually write it. Give it
               feedback: "Too formal," "I'd never say 'I appreciate your
               understanding,'" "Add a bit more warmth." Iterate until it nails
               your voice. Save the final Voice Profile to your Playbook.
             </p>
 
             <div class="tip">
-              <strong>Pro tip:</strong> You can use Claude's custom Style
-              feature. In Claude Desktop, open the lower-left tools menu in the
-              message box. It may be labeled Search and tools or shown as a
-              compact + button. Choose Use style, then Create &amp; edit styles.
-              Upload or paste your writing samples so Claude can match your
-              voice across conversations.
+              <strong>Pro tip:</strong> Put the final Voice Profile in your
+              Project instructions and keep your best writing samples in the
+              Project. If your workspace offers a style, personalization, or
+              voice feature, use the same samples there too.
             </div>
           </div>
         </div>
@@ -1190,7 +1702,7 @@
             <h4>Step 1 — Design Your First 5 Task Prompts</h4>
             <p>
               Take the top 5 tasks from your priority queue (Day 2). For each
-              one, work with Claude to create a reusable prompt template.
+              one, work with ChatGPT to create a reusable prompt template.
             </p>
 
             <div class="prompt-block">
@@ -1207,7 +1719,7 @@
               Current time spent: [X MINUTES/HOURS] What good output looks like:
               [DESCRIBE] What bad output looks like: [DESCRIBE] Create a prompt
               template I can reuse every time. Include: 1. Clear role/context
-              instructions for Claude 2. Placeholder slots I fill in each time
+              instructions for ChatGPT 2. Placeholder slots I fill in each time
               (mark with [BRACKETS]) 3. Output format instructions 4. Quality
               checks / "make sure you..." rules 5. My voice profile
               considerations if relevant Make the prompt so good that I can get
@@ -1248,7 +1760,7 @@
             <h4>What You'll Do</h4>
             <p>
               Bring everything together into one master document — your Clone
-              Blueprint. This is the single document that turns any new Claude
+              Blueprint. This is the single document that turns any new ChatGPT
               conversation into YOUR personal assistant.
             </p>
 
@@ -1267,21 +1779,21 @@
               goals, my tools) 2. VOICE PROFILE (how I communicate, my style
               rules) 3. PRIORITY TASK LIST (what I need help with most) 4.
               PROMPT LIBRARY (my top 5 reusable prompts) 5. RULES & PREFERENCES
-              (things Claude should always/never do for me) For section 5,
+              (things ChatGPT should always/never do for me) For section 5,
               interview me: ask me 10 questions about my preferences for how AI
-              should assist me — things like: do I want Claude to ask clarifying
-              questions or just take its best shot? Should Claude default to
-              short or detailed responses? How should Claude handle tasks it's
+              should assist me — things like: do I want ChatGPT to ask clarifying
+              questions or just take its best shot? Should ChatGPT default to
+              short or detailed responses? How should ChatGPT handle tasks it's
               unsure about? Format the final document so I can paste it into
-              Claude Desktop's Instructions for Claude, my AI Clone Project, or
+              my selected tool's custom instructions, my AI Clone Project, or
               the start of any conversation.
             </div>
 
             <p>
               Once assembled, paste the key sections into Instructions for
-              Claude (initials in lower left → Settings → Instructions for
-              Claude). Also upload the full Playbook to your AI Clone Workshop
-              Project so project chats can use the complete context.
+              your selected tool using the setup instructions above. Also
+              upload the full Playbook to your AI Clone Workshop Project so
+              project chats can use the complete context.
             </p>
 
             <div class="tip">
@@ -1323,7 +1835,7 @@
             <h4>What You'll Do</h4>
             <p>
               Email is the #1 time-suck for most professionals. Today you'll set
-              up Claude as your email drafting partner.
+              up ChatGPT as your email drafting partner.
             </p>
 
             <h4>Step 1 — Build Your Email System</h4>
@@ -1353,7 +1865,7 @@
             <h4>Step 2 — Process Real Emails</h4>
             <p>
               Open your inbox right now. Pick 5 emails that need responses. For
-              each one, paste the email into Claude with the appropriate
+              each one, paste the email into ChatGPT with the appropriate
               template. Time yourself — you should be drafting replies in 1–2
               minutes each instead of 5–10.
             </p>
@@ -1389,7 +1901,7 @@
           <div class="day-content">
             <h4>What You'll Do</h4>
             <p>
-              Set up Claude as your content creation partner — whether that's
+              Set up ChatGPT as your content creation partner — whether that's
               social media, blog posts, newsletters, or internal documents.
             </p>
 
@@ -1417,7 +1929,7 @@
             <h4>Step 2 — Create Real Content</h4>
             <p>
               Use your new system to actually create this week's content. Start
-              with whatever is most urgent or overdue. Let Claude draft, then
+              with whatever is most urgent or overdue. Let ChatGPT draft, then
               edit with your own judgment — don't publish anything that doesn't
               feel like you.
             </p>
@@ -1435,7 +1947,7 @@
               >Generate 20 content ideas for me based on my expertise, audience,
               and goals. For each idea, give me: - A headline/hook - 3 key
               points to cover - Which platform it's best for - Estimated time to
-              create with Claude's help Organize by theme/pillar so I can
+              create with ChatGPT's help Organize by theme/pillar so I can
               batch-create related content.
             </div>
           </div>
@@ -1451,7 +1963,7 @@
           <div class="day-content">
             <h4>What You'll Do</h4>
             <p>
-              Learn to use Claude for research, analysis, and decision-making
+              Learn to use ChatGPT for research, analysis, and decision-making
               support — turning scattered reading into structured insight.
             </p>
 
@@ -1480,8 +1992,8 @@
             <h4>Step 2 — Run a Real Research Task</h4>
             <p>
               Pick something you actually need to research this week. Use the
-              appropriate template. If web search is available in your Claude
-              account, ask Claude to find current information and include
+              appropriate template. If web search is available in your ChatGPT
+              account, ask ChatGPT to find current information and include
               sources. If not, paste the sources you want it to analyze.
             </p>
 
@@ -1589,14 +2101,14 @@
               >
                 COPY</button
               >It's the end of Week 2 of building my AI Clone system. Help me do
-              a retrospective: Here's what I used Claude for this week and my
+              a retrospective: Here's what I used ChatGPT for this week and my
               rough time estimates: [LIST EVERY TASK YOU USED CLAUDE FOR AND HOW
               LONG IT TOOK vs. HOW LONG IT WOULD HAVE TAKEN WITHOUT] Analyze: 1.
               Total estimated time saved this week 2. Which workflows are
               working best (highest ROI)? 3. Which workflows need improvement?
               4. What tasks from my priority queue should I tackle next week? 5.
               What adjustments should I make to my Clone Blueprint? Be honest if
-              I'm underutilizing Claude or if I'm using it for things where it's
+              I'm underutilizing ChatGPT or if I'm using it for things where it's
               not actually saving time.
             </div>
 
@@ -1606,7 +2118,7 @@
             </p>
 
             <div class="tip">
-              <strong>Week 2 Checkpoint:</strong> You should have used Claude
+              <strong>Week 2 Checkpoint:</strong> You should have used ChatGPT
               for at least 5 real tasks this week. Target is 3+ hours saved. If
               you're below that, you're either not using it enough or your
               prompts need work. Go back and refine.
@@ -1630,7 +2142,7 @@
 
         <div class="goal-box">
           <strong>Week Goal</strong>
-          Claude's outputs should now be 90%+ indistinguishable from your own
+          ChatGPT's outputs should now be 90%+ indistinguishable from your own
           work. You'll build domain expertise into your Clone and create
           advanced workflows.
         </div>
@@ -1646,9 +2158,9 @@
           <div class="day-content">
             <h4>What You'll Do</h4>
             <p>
-              Go through 5 outputs Claude created last week. For each one, mark
+              Go through 5 outputs ChatGPT created last week. For each one, mark
               up exactly what you changed before using it. Feed all corrections
-              back to Claude.
+              back to ChatGPT.
             </p>
 
             <div class="prompt-block">
@@ -1685,7 +2197,7 @@
           <div class="day-content">
             <h4>What You'll Do</h4>
             <p>
-              Teach Claude the specialized knowledge of your field that it
+              Teach ChatGPT the specialized knowledge of your field that it
               wouldn't know on its own.
             </p>
 
@@ -1713,15 +2225,15 @@
 
             <h4>Step 2 — Upload Key Documents</h4>
             <p>
-              Feed Claude examples of domain-specific work: past reports,
+              Feed ChatGPT examples of domain-specific work: past reports,
               proposals, decks, strategy docs, SOPs. You can upload files
-              directly in Claude. For each one, tell Claude what it is and what
+              directly in ChatGPT. For each one, tell ChatGPT what it is and what
               to learn from it.
             </p>
 
             <h4>Step 3 — Create a Domain Knowledge Sheet</h4>
             <p>
-              Ask Claude to summarize everything into a structured "Domain
+              Ask ChatGPT to summarize everything into a structured "Domain
               Knowledge Sheet" you can reference in future prompts. Add it to
               your Playbook.
             </p>
@@ -1740,7 +2252,7 @@
             <h4>What You'll Do</h4>
             <p>
               Move from single prompts to multi-step workflows — where one
-              Claude output feeds into the next.
+              ChatGPT output feeds into the next.
             </p>
 
             <h4>Example: Content Pipeline Chain</h4>
@@ -1802,7 +2314,7 @@
                 COPY</button
               >Help me create a "Clone Improvement Log" template. Every Friday,
               I want to spend 15 minutes reviewing the week and upgrading my
-              system. The template should prompt me to: 1. Rate Claude's output
+              system. The template should prompt me to: 1. Rate ChatGPT's output
               quality this week (1-10) with specific examples 2. Log any
               corrections I made repeatedly (these become new rules) 3. Identify
               new tasks I should add to my automation list 4. Note any prompts
@@ -1828,7 +2340,7 @@
           <div class="day-content">
             <h4>What You'll Do</h4>
             <p>
-              Learn to use Claude Projects to create dedicated workspaces with
+              Learn to use ChatGPT Projects to create dedicated workspaces with
               persistent context — so you don't have to re-explain things every
               conversation. Projects are available on free accounts too, with
               plan-specific limits.
@@ -1836,7 +2348,7 @@
 
             <h4>Step 1 — Set Up Your Core Projects</h4>
             <p>
-              Create Claude Projects for your main work areas. For each project,
+              Create ChatGPT Projects for your main work areas. For each project,
               add the relevant Playbook sections, examples, and source files as
               Project Knowledge. Suggested projects:
             </p>
@@ -1884,15 +2396,15 @@
           <div class="week-header-text">
             <h2>Augment — Create Alongside It Daily</h2>
             <div class="subtitle">
-              Make Claude your daily thinking partner, not just a task executor.
+              Make ChatGPT your daily thinking partner, not just a task executor.
             </div>
           </div>
         </div>
 
         <div class="goal-box">
           <strong>Week Goal</strong>
-          Shift from "I give Claude tasks" to "Claude and I think together."
-          Start using Claude for strategic thinking, creative ideation, and
+          Shift from "I give ChatGPT tasks" to "ChatGPT and I think together."
+          Start using ChatGPT for strategic thinking, creative ideation, and
           problem-solving.
         </div>
 
@@ -1904,7 +2416,7 @@
           </div>
           <div class="day-content">
             <h4>What You'll Do</h4>
-            <p>Use Claude as a sounding board for big-picture thinking.</p>
+            <p>Use ChatGPT as a sounding board for big-picture thinking.</p>
 
             <div class="prompt-block">
               <button
@@ -1957,7 +2469,7 @@
           <div class="day-content">
             <h4>What You'll Do</h4>
             <p>
-              Set up Claude as your brainstorm partner using advanced creative
+              Set up ChatGPT as your brainstorm partner using advanced creative
               techniques.
             </p>
 
@@ -2028,12 +2540,12 @@
               proposed outline.
             </div>
 
-            <h4>Power Move: Claude Creates Files</h4>
+            <h4>Power Move: ChatGPT Creates Files</h4>
             <p>
-              When file creation is available in your Claude plan and workspace,
+              When file creation is available in your ChatGPT plan and workspace,
               ask for polished deliverables directly: "Create this as a Word
               document with professional formatting." If file creation is not
-              available, ask Claude for the final formatted text and paste it
+              available, ask ChatGPT for the final formatted text and paste it
               into Word, Google Docs, or your preferred tool.
             </p>
           </div>
@@ -2129,7 +2641,7 @@
 
             <div class="tip">
               <strong>Week 4 Checkpoint:</strong> By now you should be saving
-              6-8+ hours per week. If not, you're either not using Claude daily
+              6-8+ hours per week. If not, you're either not using ChatGPT daily
               or your workflows need tightening. Be honest with yourself about
               where the friction is.
             </div>
@@ -2165,7 +2677,7 @@
           <div class="day-content">
             <h4>What You'll Do</h4>
             <p>
-              Build quality control into your prompts so Claude catches its own
+              Build quality control into your prompts so ChatGPT catches its own
               mistakes before you see them.
             </p>
 
@@ -2179,7 +2691,7 @@
               >
                 COPY</button
               >I want to add a self-review step to my key prompts. For each of
-              these task types, create a "Quality Gate" checklist that Claude
+              these task types, create a "Quality Gate" checklist that ChatGPT
               should run before presenting output to me: Task types: 1. [TASK
               TYPE 1 — e.g., email drafts] 2. [TASK TYPE 2 — e.g., social posts]
               3. [TASK TYPE 3 — e.g., client proposals] 4. [TASK TYPE 4 — e.g.,
@@ -2226,10 +2738,10 @@
               >Help me create a Standard Operating Procedure (SOP) for this
               recurring workflow: Workflow: [NAME] Frequency: [HOW OFTEN]
               Current process: [DESCRIBE STEP BY STEP WHAT YOU DO NOW] Where
-              Claude is involved: [WHICH STEPS] Common mistakes/pitfalls: [WHAT
+              ChatGPT is involved: [WHICH STEPS] Common mistakes/pitfalls: [WHAT
               GOES WRONG] Create an SOP that includes: 1. Purpose and when to
               use this workflow 2. Step-by-step instructions (numbering each
-              step) 3. The exact Claude prompts to use at each AI-assisted step
+              step) 3. The exact ChatGPT prompts to use at each AI-assisted step
               4. Quality checks between steps 5. Expected output and how to
               verify it's correct 6. Troubleshooting guide for common issues 7.
               Time estimate for the whole process
@@ -2281,7 +2793,7 @@
             <h4>Technique 3: Few-Shot Examples</h4>
             <p>
               Always provide 1-2 examples of ideal output when quality matters.
-              Claude mimics patterns extremely well.
+              ChatGPT mimics patterns extremely well.
             </p>
 
             <h4>Technique 4: Structured Output Formats</h4>
@@ -2328,10 +2840,10 @@
                 COPY</button
               >Look at my current Clone system — all my prompts, workflows, and
               SOPs. Play devil's advocate: 1. Where are the failure points? When
-              will Claude give me bad output? 2. What types of tasks should I
-              NEVER fully delegate to Claude? 3. What information does Claude
+              will ChatGPT give me bad output? 2. What types of tasks should I
+              NEVER fully delegate to ChatGPT? 3. What information does ChatGPT
               not have that leads to mistakes? 4. Where am I over-trusting
-              Claude's output? 5. What safeguards should I add? Be brutally
+              ChatGPT's output? 5. What safeguards should I add? Be brutally
               honest. I'd rather know the limitations now than learn them the
               hard way.
             </div>
@@ -2383,13 +2895,13 @@
 
             <p>
               This v2.0 becomes your definitive system. Update Instructions for
-              Claude and your Project Knowledge accordingly.
+              ChatGPT and your Project Knowledge accordingly.
             </p>
 
             <div class="tip">
               <strong>Week 5 Checkpoint:</strong> You should now be saving 10+
               hours per week and hitting 80%+ "use as-is" quality on your common
-              tasks. You should feel like Claude is a genuine partner, not just
+              tasks. You should feel like ChatGPT is a genuine partner, not just
               a tool you occasionally use.
             </div>
           </div>
@@ -2504,7 +3016,7 @@
           <div class="day-content">
             <h4>What You'll Do</h4>
             <p>
-              Build a system for staying up-to-date as Claude evolves and as
+              Build a system for staying up-to-date as ChatGPT evolves and as
               your needs change.
             </p>
 
@@ -2519,26 +3031,26 @@
               >
                 COPY</button
               >Create a "Monthly Clone Maintenance" checklist I can run on the
-              first of each month: 1. REVIEW: What new features has Claude
+              first of each month: 1. REVIEW: What new features has ChatGPT
               released? (I'll search and tell you) 2. AUDIT: Review my prompt
               library — which prompts am I using vs. ignoring? 3. EXPAND: What
               new tasks have entered my workflow that I could automate? 4.
               REFINE: Take my top 3 most-used prompts and try to improve them by
               10% 5. RETIRE: Remove any prompts or workflows that are no longer
               relevant 6. MEASURE: Compare time savings this month vs. last
-              month 7. LEARN: Spend 30 minutes learning one new Claude
+              month 7. LEARN: Spend 30 minutes learning one new ChatGPT
               capability or prompting technique Give me this as a structured
               template with space for notes.
             </div>
 
-            <h4>Explore Claude's Expanding Features</h4>
+            <h4>Explore ChatGPT's Expanding Features</h4>
             <p>
-              Make sure you're using the Claude capabilities that fit your plan
+              Make sure you're using the ChatGPT capabilities that fit your plan
               and risk tolerance: web search for current information when
               available, file uploads for working with documents, Projects for
-              persistent context, custom Styles for consistent voice, artifacts
-              for interactive content, Desktop Extensions for local tools,
-              custom connectors for trusted remote systems, and the API for
+              persistent context, voice or personalization settings for
+              consistent output, canvas or artifacts for interactive content,
+              trusted app integrations for external tools, and the API for
               advanced automation.
             </p>
           </div>
@@ -2554,15 +3066,15 @@
             <h4>What You'll Do</h4>
             <p>
               Put your entire Clone system through a stress test — a full day of
-              real work using Claude for everything possible.
+              real work using ChatGPT for everything possible.
             </p>
 
             <h4>The Challenge</h4>
             <p>Tomorrow, from the moment you start working until you stop:</p>
             <ol>
               <li>
-                Open Claude Desktop before starting ANY task and ask: "Can
-                Claude help with this?"
+                Open ChatGPT Desktop before starting ANY task and ask: "Can
+                ChatGPT help with this?"
               </li>
               <li>Use your prompt templates for every applicable task</li>
               <li>
@@ -2570,7 +3082,7 @@
               </li>
               <li>
                 Note every friction point: where did you have to stop using
-                Claude or take over manually? Why?
+                ChatGPT or take over manually? Why?
               </li>
               <li>At end of day, calculate total time saved</li>
             </ol>
@@ -2642,7 +3154,7 @@
             <ul>
               <li>
                 <strong>Daily:</strong> Use your morning check-in prompt. Use
-                Claude Desktop for every applicable task.
+                ChatGPT Desktop for every applicable task.
               </li>
               <li>
                 <strong>Weekly:</strong> 15-minute Friday review using your
@@ -2681,6 +3193,147 @@
     </div>
 
     <script>
+      const toolConfig = {
+        chatgpt: {
+          name: 'ChatGPT',
+          possessive: "ChatGPT's",
+          workspace: 'ChatGPT Desktop',
+          title: 'Build Your AI Clone — 6-Week Workshop with ChatGPT',
+          prereq:
+            'The latest ChatGPT Desktop app installed and signed in, or chatgpt.com if your device cannot run the app',
+        },
+        claude: {
+          name: 'Claude',
+          possessive: "Claude's",
+          workspace: 'Claude Desktop',
+          title: 'Build Your AI Clone — 6-Week Workshop with Claude',
+          prereq:
+            'The latest Claude Desktop installed and signed in (free tier works; paid plans unlock higher usage, Cowork, and advanced workflows)',
+        },
+      };
+
+      const sharedTextNodes = [];
+      const onboardingKey = 'aiCloneOnboardingComplete';
+
+      function isFixedToolCopy(node) {
+        const element = node.parentElement;
+        return (
+          !element ||
+          element.closest('[data-fixed-tool-copy]') ||
+          element.closest('[data-onboarding-modal]') ||
+          element.closest('[data-tool-select]') ||
+          element.closest('script') ||
+          element.closest('style')
+        );
+      }
+
+      function collectSharedTextNodes() {
+        const walker = document.createTreeWalker(
+          document.body,
+          NodeFilter.SHOW_TEXT,
+          {
+            acceptNode(node) {
+              if (isFixedToolCopy(node)) return NodeFilter.FILTER_REJECT;
+              if (!node.nodeValue.includes('ChatGPT')) {
+                return NodeFilter.FILTER_SKIP;
+              }
+              return NodeFilter.FILTER_ACCEPT;
+            },
+          },
+        );
+
+        let node = walker.nextNode();
+        while (node) {
+          sharedTextNodes.push({
+            node,
+            original: node.nodeValue,
+          });
+          node = walker.nextNode();
+        }
+      }
+
+      function renderToolText(text, tool) {
+        const config = toolConfig[tool];
+        return text
+          .replaceAll("ChatGPT's", config.possessive)
+          .replaceAll('ChatGPT Desktop', config.workspace)
+          .replaceAll('ChatGPT', config.name);
+      }
+
+      function setTool(tool) {
+        const selectedTool = toolConfig[tool] ? tool : 'chatgpt';
+        const config = toolConfig[selectedTool];
+
+        document.body.dataset.tool = selectedTool;
+        document.title = config.title;
+
+        document.querySelectorAll('[data-tool-select]').forEach((button) => {
+          const isSelected = button.dataset.toolSelect === selectedTool;
+          button.setAttribute('aria-pressed', String(isSelected));
+        });
+
+        document.querySelectorAll('[data-tool-panel]').forEach((panel) => {
+          panel.hidden = panel.dataset.toolPanel !== selectedTool;
+        });
+
+        document.querySelectorAll('[data-tool-label]').forEach((label) => {
+          const type = label.dataset.toolLabel;
+          label.textContent = config[type] || config.name;
+        });
+
+        sharedTextNodes.forEach(({ node, original }) => {
+          node.nodeValue = renderToolText(original, selectedTool);
+        });
+
+        try {
+          localStorage.setItem('aiCloneTool', selectedTool);
+        } catch (error) {
+          // The selector still works if storage is blocked.
+        }
+      }
+
+      function getSavedTool() {
+        try {
+          const savedTool = localStorage.getItem('aiCloneTool');
+          return toolConfig[savedTool] ? savedTool : null;
+        } catch (error) {
+          return null;
+        }
+      }
+
+      function hasCompletedOnboarding() {
+        try {
+          return localStorage.getItem(onboardingKey) === 'true';
+        } catch (error) {
+          return false;
+        }
+      }
+
+      function showOnboarding() {
+        const modal = document.querySelector('[data-onboarding-modal]');
+        if (!modal) return;
+        modal.hidden = false;
+        document.body.classList.add('modal-open');
+        modal.querySelector('[data-onboarding-tool]')?.focus();
+      }
+
+      function hideOnboarding() {
+        const modal = document.querySelector('[data-onboarding-modal]');
+        if (!modal) return;
+        modal.hidden = true;
+        document.body.classList.remove('modal-open');
+      }
+
+      function completeOnboarding(tool) {
+        setTool(tool);
+        try {
+          localStorage.setItem(onboardingKey, 'true');
+        } catch (error) {
+          // Preference persistence is best-effort for local files and strict browsers.
+        }
+        hideOnboarding();
+      }
+
       function copyPrompt(btn) {
         const block = btn.parentElement;
         const text = block.textContent.replace('COPY', '').trim();
@@ -2689,6 +3342,38 @@
           setTimeout(() => (btn.textContent = 'COPY'), 1500);
         });
       }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        collectSharedTextNodes();
+
+        document.querySelectorAll('[data-tool-select]').forEach((button) => {
+          button.addEventListener('click', () => {
+            setTool(button.dataset.toolSelect);
+            try {
+              localStorage.setItem(onboardingKey, 'true');
+            } catch (error) {
+              // Keep the selector functional even when storage is blocked.
+            }
+          });
+        });
+
+        document.querySelectorAll('[data-onboarding-tool]').forEach((button) => {
+          button.addEventListener('click', () => {
+            completeOnboarding(button.dataset.onboardingTool);
+          });
+        });
+
+        const savedTool = getSavedTool();
+        if (savedTool && hasCompletedOnboarding()) {
+          setTool(savedTool);
+          hideOnboarding();
+        } else {
+          if (savedTool) {
+            setTool(savedTool);
+          }
+          showOnboarding();
+        }
+      });
     </script>
   </body>
 </html>
