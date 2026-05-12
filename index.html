@@ -197,7 +197,7 @@
       .tool-toggle {
         display: inline-grid;
         flex-shrink: 0;
-        grid-template-columns: repeat(2, minmax(82px, 1fr));
+        grid-template-columns: repeat(3, minmax(82px, 1fr));
         gap: 3px;
         padding: 3px;
         background: rgba(26, 26, 38, 0.72);
@@ -272,7 +272,7 @@
       }
       .onboarding-actions {
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 12px;
       }
       .onboarding-actions button {
@@ -760,6 +760,13 @@
               and local extensions where available.
             </span>
           </button>
+          <button type="button" data-onboarding-tool="gemini">
+            <strong>Gemini</strong>
+            <span>
+              Use Gemini Desktop, Gems, Projects, Google Workspace extensions,
+              NotebookLM, and Gemini Live where available.
+            </span>
+          </button>
         </div>
         <div class="onboarding-note">
           Your choice is saved in this browser. You can change it later in Tool
@@ -836,6 +843,9 @@
             </button>
             <button type="button" data-tool-select="claude" aria-pressed="false">
               Claude
+            </button>
+            <button type="button" data-tool-select="gemini" aria-pressed="false">
+              Gemini
             </button>
           </div>
         </div>
@@ -1447,6 +1457,289 @@
               target="_blank"
               rel="noopener"
               >release notes</a
+            >.
+          </div>
+        </div>
+
+        <div
+          class="desktop-guide tool-panel"
+          id="gemini-desktop"
+          data-tool-panel="gemini"
+          data-fixed-tool-copy
+          hidden
+        >
+          <h3>Gemini Desktop Setup Instructions</h3>
+          <p>
+            Use Gemini Desktop for the workshop. It provides a native experience
+            with deep system-level integration, making your AI Clone more
+            accessible and integrated into your workflow. Use the latest
+            <strong>Gemini 3.1 Pro</strong> models and the new
+            <strong>Skills</strong> feature to make the workshop more effective.
+          </p>
+
+          <div class="setup-grid">
+            <div class="setup-card">
+              <h4>1. Install and Sign In</h4>
+              <ol>
+                <li>
+                  Go to
+                  <a
+                    href="https://gemini.google.com/"
+                    target="_blank"
+                    rel="noopener"
+                    >gemini.google.com</a
+                  >
+                  and follow the prompt to download the native Gemini app for
+                  Mac or Windows.
+                </li>
+                <li>
+                  On macOS, ensure you are using a version compatible with the
+                  latest native app features (May 2026 updates).
+                </li>
+                <li>
+                  Open Gemini from your Applications or Start menu and sign in
+                  with your Google account.
+                </li>
+                <li>
+                  Check for updates within the app to ensure you have the latest
+                  features like <strong>Personal Intelligence</strong> and
+                  <strong>Gemini 3.1 Pro</strong> models.
+                </li>
+              </ol>
+            </div>
+
+            <div class="setup-card">
+              <h4>2. Create Your Workshop Home</h4>
+              <ol>
+                <li>
+                  Create one document named <strong>AI Clone Playbook</strong>
+                  in Google Docs, which integrates natively with Gemini.
+                </li>
+                <li>
+                  Add these headings now: <code>Clone Profile</code>,
+                  <code>Voice Profile</code>, <code>Prompt Library</code>,
+                  <code>Workflows</code>, <code>Quality Gates</code>, and
+                  <code>Maintenance Log</code>.
+                </li>
+                <li>
+                  Create a Google Drive folder named
+                  <strong>AI Clone Workshop</strong> for writing samples and
+                  files you want Gemini to access via extensions.
+                </li>
+              </ol>
+            </div>
+
+            <div class="setup-card">
+              <h4>3. Set Up Your Custom Gem</h4>
+              <ol>
+                <li>
+                  In Gemini, navigate to <strong>Gems</strong> and click
+                  <strong>Create Gem</strong>.
+                </li>
+                <li>
+                  Name it <strong>AI Clone Workshop</strong> and paste a short
+                  starter instruction:
+                  <br /><code
+                    >Help me build and maintain my AI Clone system. Ask for
+                    missing context, preserve my voice, and turn repeated work
+                    into reusable prompts and workflows.</code
+                  >
+                </li>
+                <li>
+                  Gems work best with <strong>Gemini 3.1 Pro</strong>. Update
+                  this Gem with your full Clone Blueprint at the end of Week 1.
+                </li>
+              </ol>
+            </div>
+
+            <div class="setup-card">
+              <h4>4. Use "Skills" for Your Prompt Library</h4>
+              <ol>
+                <li>
+                  In Gemini, click the <strong>Ask Gemini</strong> icon or use
+                  the sidebar to access the <strong>Skills</strong> menu.
+                </li>
+                <li>
+                  Save your most effective prompts from Week 1 as Skills to run
+                  them instantly with a single click across your workspace.
+                </li>
+                <li>
+                  Skills are generally available for Workspace users and let
+                  you execute your AI Clone workflows without re-entering
+                  prompts.
+                </li>
+              </ol>
+            </div>
+
+            <div class="setup-card">
+              <h4>5. Organize with Projects & Notebooks</h4>
+              <ol>
+                <li>
+                  Use the <strong>Projects</strong> system in Gemini to keep
+                  your workshop chats organized and tied to specific goals.
+                </li>
+                <li>
+                  Connect <strong>NotebookLM</strong> directly in the app to
+                  seamlessly manage your Playbook research and deep analysis
+                  sessions.
+                </li>
+                <li>
+                  Upload your Playbook and updated samples as sources within
+                  your Project or Notebook for persistent context.
+                </li>
+              </ol>
+            </div>
+
+            <div class="setup-card">
+              <h4>6. Enable Google Workspace Extensions</h4>
+              <ol>
+                <li>
+                  Go to <strong>Settings > Extensions</strong> and ensure the
+                  <strong>Google Workspace</strong> extension is enabled.
+                </li>
+                <li>
+                  This allows Gemini to read and write directly to your Google
+                  Docs, Gmail, and Drive, which is crucial for the Playbook
+                  workflow.
+                </li>
+                <li>
+                  In May 2026, Gemini Enterprise added <strong>Box</strong>
+                  and <strong>Google Sites</strong> data store support for
+                  broader context.
+                </li>
+              </ol>
+            </div>
+
+            <div class="setup-card">
+              <h4>7. Use Gemini Live for Thinking</h4>
+              <ol>
+                <li>
+                  Use <strong>Gemini Live</strong> (real-time voice mode) during
+                  Week 4's "Thinking Partner" sessions.
+                </li>
+                <li>
+                  It allows for more natural, fluid brainstorming and refining
+                  of complex ideas without typing.
+                </li>
+                <li>
+                  Access Live via the waveform icon in the message box when you
+                  need to talk through a strategic challenge.
+                </li>
+              </ol>
+            </div>
+
+            <div class="setup-card">
+              <h4>8. Personal Intelligence & Images</h4>
+              <ol>
+                <li>
+                  Leverage <strong>Personal Intelligence</strong> settings to
+                  teach Gemini about your life, interests, and unique style.
+                </li>
+                <li>
+                  Use the updated image generation features to create visual
+                  assets for your AI Clone system that reflect your personal
+                  branding.
+                </li>
+                <li>
+                  Fine-tune these settings as you progress through the workshop
+                  to keep Gemini aligned with your evolving Clone Profile.
+                </li>
+              </ol>
+            </div>
+
+            <div class="setup-card">
+              <h4>9. Desktop Integration Features</h4>
+              <ul>
+                <li>
+                  <strong>Native Shortcuts:</strong> Use system-level shortcuts
+                  to summon Gemini quickly while working in other apps.
+                </li>
+                <li>
+                  <strong>Drag and Drop:</strong> Easily drag files from your
+                  desktop into the Gemini app for instant analysis.
+                </li>
+                <li>
+                  <strong>Persistent Sidebar:</strong> Keep Gemini pinned to the
+                  side of your screen while you build your Playbook in another
+                  window.
+                </li>
+                <li>
+                  <strong>Lyria 3 Pro:</strong> Use high-fidelity sound creation
+                  if your workshop involves audio or multimedia elements.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="desktop-note">
+            Keep sensitive data secure by managing your Google account's data
+            controls. Gemini's integration with Google Workspace is powerful,
+            but always ensure you are allowed to share the context you provide,
+            especially when using extensions.
+          </div>
+
+          <div class="session-routine">
+            <h4>Run Each Workshop Session This Way</h4>
+            <ol>
+              <li>
+                Open Gemini Desktop, then open your
+                <strong>AI Clone Workshop</strong> Project or Gem.
+              </li>
+              <li>
+                Open your <strong>AI Clone Playbook</strong> in Google Docs
+                beside it (or use the Workspace extension to access it).
+              </li>
+              <li>
+                Expand the day below, copy the prompt, replace every
+                <code>[BRACKETED PLACEHOLDER]</code> with real context, and run
+                it on a real task.
+              </li>
+              <li>
+                Save only the reusable pieces: profiles, prompt templates,
+                workflows, quality rules, and corrections Gemini should keep
+                using.
+              </li>
+            </ol>
+          </div>
+
+          <div class="source-list">
+            Updated for Gemini Desktop on May 11, 2026 using Google's current
+            announcements for
+            <a
+              href="https://blog.google/innovation-and-ai/products/gemini-app/gemini-drop-april-2026/"
+              target="_blank"
+              rel="noopener"
+              >April 2026 Gemini Drop</a
+            >,
+            <a
+              href="https://docs.cloud.google.com/gemini/enterprise/docs/release-notes"
+              target="_blank"
+              rel="noopener"
+              >May 2026 Release Notes</a
+            >,
+            <a
+              href="https://support.google.com/gemini/answer/14579631"
+              target="_blank"
+              rel="noopener"
+              >Gems</a
+            >,
+            <a
+              href="https://support.google.com/gemini/answer/14579026"
+              target="_blank"
+              rel="noopener"
+              >Extensions</a
+            >,
+            <a
+              href="https://notebooklm.google/"
+              target="_blank"
+              rel="noopener"
+              >NotebookLM</a
+            >, and
+            <a
+              href="https://gemini.google.com/live"
+              target="_blank"
+              rel="noopener"
+              >Gemini Live</a
             >.
           </div>
         </div>
@@ -3232,6 +3525,14 @@
           prereq:
             'The latest Claude Desktop installed and signed in (free tier works; paid plans unlock higher usage, Cowork, and advanced workflows)',
         },
+        gemini: {
+          name: 'Gemini',
+          possessive: "Gemini's",
+          workspace: 'Gemini Desktop',
+          title: 'Build Your AI Clone — 6-Week Workshop with Gemini',
+          prereq:
+            'The latest Gemini Desktop app installed and signed in (native macOS app requires the April 2026 Drop updates)',
+        },
       };
 
       const sharedTextNodes = [];
@@ -3256,7 +3557,12 @@
           {
             acceptNode(node) {
               if (isFixedToolCopy(node)) return NodeFilter.FILTER_REJECT;
-              if (!node.nodeValue.includes('ChatGPT')) {
+              const text = node.nodeValue;
+              if (
+                !text.includes('ChatGPT') &&
+                !text.includes('Claude') &&
+                !text.includes('Gemini')
+              ) {
                 return NodeFilter.FILTER_SKIP;
               }
               return NodeFilter.FILTER_ACCEPT;
@@ -3279,7 +3585,13 @@
         return text
           .replaceAll("ChatGPT's", config.possessive)
           .replaceAll('ChatGPT Desktop', config.workspace)
-          .replaceAll('ChatGPT', config.name);
+          .replaceAll('ChatGPT', config.name)
+          .replaceAll("Claude's", config.possessive)
+          .replaceAll('Claude Desktop', config.workspace)
+          .replaceAll('Claude', config.name)
+          .replaceAll("Gemini's", config.possessive)
+          .replaceAll('Gemini Desktop', config.workspace)
+          .replaceAll('Gemini', config.name);
       }
 
       function setTool(tool) {
